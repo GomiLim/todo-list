@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import { Modal } from 'containers';
 import { ModalContext } from 'context/ModalContext';
+import { Header } from 'containers/Header';
 
 const MainPage = () => {
   const { isModalVisible, closeModal, openModal } = useContext(ModalContext);
   return (
     <div className="main-page">
+      <Header />
       <div>메인페이지</div>
       <button onClick={() => openModal()}>모달 오픈</button>
       {isModalVisible && (

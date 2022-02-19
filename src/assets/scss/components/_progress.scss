@@ -1,0 +1,24 @@
+.task-progress-area {
+  .progress {
+    background-color: $secondary-color-gray-1;
+    height: 4px;
+    width: 100%;
+    border-radius: 99px;
+    overflow: hidden;
+
+    &::-webkit-progress-bar {
+      background-color: $secondary-color-gray-1;
+    }
+
+    &::-webkit-progress-value {
+      background-color: $main-color;
+    }
+
+    &::-moz-progress-bar {
+      background-color: $secondary-color-gray-1;
+    }
+    &::-moz-progress-value {
+      background-color: $main-color;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.header-area {
+  .today-area {
+    text-align: right;
+    font-size: 35px;
+    line-height: 41.02px;
+    color: $secondary-color-dark;
+
+    .today-title {
+      font-weight: 300;
+      text-transform: capitalize;
+    }
+
+    .today {
+      font-weight: 700;
+    }
+  }
+
+  .task-progress-area {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+
+    .progress-label {
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 23.44px;
+      color: $secondary-color-dark;
+      margin-bottom: 10px;
+    }
+  }
+}
