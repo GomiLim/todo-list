@@ -4,7 +4,7 @@ interface PropsProgress extends HTMLAttributes<HTMLDivElement> {
   label?: string | JSX.Element | JSX.Element[];
   task: string[];
 }
-export const Progress = (props: PropsProgress) => {
+const Progress = (props: PropsProgress) => {
   const { task, label, ...rest } = props;
   return (
     <div {...rest}>
@@ -20,3 +20,5 @@ export const Progress = (props: PropsProgress) => {
     </div>
   );
 };
+
+export default React.memo(Progress);

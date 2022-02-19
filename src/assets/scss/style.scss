@@ -1,11 +1,14 @@
 @import './abstracts/variables';
 
-@import './base/reset.scss';
-@import './base/mixin.scss';
-@import './base/base.scss';
+@import './base/font';
+@import './base/reset';
+@import './base/mixin';
+@import './base/base';
 
 @import './components/progress';
+@import './components/tag_item';
 
 @import './containers/header';
+@import './containers/tags';
 
-@import './pages/main_page.scss';
+@import './pages/main_page';
