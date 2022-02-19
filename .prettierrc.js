@@ -3,11 +3,8 @@ module.exports = {
   semi: true,
   useTabs: false,
   tabWidth: 2,
-  trailingComma: 'all',
+  trailingComma: 'none',
   printWidth: 80,
-  arrowParens: 'always',
-  orderedImports: true,
   bracketSpacing: true,
-  jsxBracketSameLine: false,
-  arrowParens: 'avoid',
+  arrowParens: 'avoid'
 };

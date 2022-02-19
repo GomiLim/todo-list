@@ -1,0 +1,10 @@
+.tag-area {
+  display: flex;
+  align-items: center;
+  .tag-title {
+    font-style: 20px;
+    text-transform: uppercase;
+    @include fontfamily($font-weight-bold);
+    margin-right: 15px;
+  }
+}
