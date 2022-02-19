@@ -5,7 +5,7 @@ import { ModalContext } from 'context/ModalContext';
 const MainPage = () => {
   const { isModalVisible, closeModal, openModal } = useContext(ModalContext);
   return (
-    <div>
+    <div className="main-page">
       <div>메인페이지</div>
       <button onClick={() => openModal()}>모달 오픈</button>
       {isModalVisible && (
