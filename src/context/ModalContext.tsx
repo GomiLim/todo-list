@@ -10,7 +10,7 @@ export interface ModalProps {
 const ModalContext = React.createContext<ModalProps>({
   isModalVisible: false,
   openModal: () => undefined,
-  closeModal: () => undefined,
+  closeModal: () => undefined
 });
 
 const ModalProvider = ({ children }: { children: JSX.Element }) => {

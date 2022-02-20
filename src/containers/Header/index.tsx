@@ -1,8 +1,8 @@
 import React from 'react';
 import { Progress as TaskProgress, Today } from 'components';
 
-export const Header = () => {
-  const task = ['1', '2', '3', '4'];
+const Header = () => {
+  const task = ['1', '2', '3', '4', '5', '6', '7'];
   return (
     <div className="header-area">
       <div className="today-area">
@@ -17,3 +17,5 @@ export const Header = () => {
     </div>
   );
 };
+
+export default React.memo(Header);
