@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, Tags } from 'containers';
+import { Header, Search, Tags } from 'containers';
 
 import { PropsTagItem } from 'models';
 
@@ -28,7 +28,7 @@ const MainPage = () => {
         createTag={createItem}
         filter={filter}
       />
-      <div>메인페이지</div>
+      <Search />
     </div>
   );
 };
