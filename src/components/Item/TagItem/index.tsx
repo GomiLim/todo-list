@@ -1,19 +1,19 @@
 import React, { HtmlHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import { PropsTagItem } from 'models';
-import { MAIN_COLOR } from 'libs/constant';
-import { SECONDARY_COLOR_GRAY_1 } from 'libs/constant';
+import { MAIN_COLOR, SECONDARY_COLOR_GRAY_1 } from 'libs/constant';
 
-interface ExtendsTagItem
-  extends Omit<PropsTagItem, 'id'>,
-    HtmlHTMLAttributes<HTMLDivElement> {}
+interface PropsTagItemExtends extends HtmlHTMLAttributes<HTMLDivElement> {
+  id: string;
+  tagIcoColor: string;
+  text: string;
+  status: boolean;
+}
 
-const StyledTagItem = styled.div<{ tagIcoColor: string; status: string }>`
+const StyledTagItem = styled.div<{ tagIcoColor: string; status: boolean }>`
   position: relative;
   border: 1px solid
-    ${props =>
-      props.status === 'active' ? props.tagIcoColor : SECONDARY_COLOR_GRAY_1};
+    ${props => (props.status ? props.tagIcoColor : SECONDARY_COLOR_GRAY_1)};
 
   &:hover {
     border: 1px solid ${props => props.tagIcoColor ?? MAIN_COLOR};
@@ -32,8 +32,9 @@ const StyledTagItem = styled.div<{ tagIcoColor: string; status: string }>`
   }
 `;
 
-const TagItem = (props: ExtendsTagItem) => {
+const TagItem = (props: PropsTagItemExtends) => {
   const { tagIcoColor, text, status, ...rest } = props;
+
   return (
     <StyledTagItem
       className="tag-item"

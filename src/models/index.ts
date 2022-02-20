@@ -1,8 +1,7 @@
 export interface PropsTagItem {
-  id?: number;
+  id: string;
   tagIcoColor: string;
   text: string;
-  status: string;
 }
 export interface PropsTagList {
   tagList: PropsTagItem[];

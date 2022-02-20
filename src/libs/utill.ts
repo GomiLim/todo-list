@@ -1,3 +1,5 @@
+import { PropsTagItem } from 'models';
+
 export type DateType = Date | string | number;
 
 export const zero = (value: number | string) =>
@@ -29,7 +31,7 @@ const formatReplace = (format: string, date: Date) => {
         default:
           return '';
       }
-    },
+    }
   );
 };
 
@@ -37,4 +39,16 @@ export const dateFormater = (format: string, date?: DateType): string => {
   const _date = date || new Date();
   const newDate = typeof _date === 'object' ? _date : new Date(_date); // Date 객체로 만들어줍니다.
   return formatReplace(format, newDate);
+};
+
+export const findSameItem = (
+  list: PropsTagItem[] = [],
+  item_type: string,
+  item: string
+) => {
+  if (item_type == 'id') {
+    return list.findIndex((listItem: PropsTagItem) => listItem.id === item);
+  } else {
+    return list.findIndex((listItem: PropsTagItem) => listItem.text === item);
+  }
 };
