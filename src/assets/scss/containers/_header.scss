@@ -8,7 +8,7 @@
 
     .today-title {
       text-transform: capitalize;
-      @include fontfamily($font-weight-Thin);
+      @include fontfamily($font-weight-thin);
     }
 
     .today {
@@ -23,7 +23,7 @@
 
     .progress-label {
       font-size: 20px;
-      @include fontfamily($font-weight-Thin);
+      @include fontfamily($font-weight-thin);
       line-height: 23.44px;
       color: $secondary-color-dark;
       margin-bottom: 10px;

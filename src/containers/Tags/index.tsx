@@ -7,28 +7,26 @@ import { MAIN_COLOR } from 'libs/constant';
 
 interface PropsTags extends PropsTagList {
   setTagList: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  removeTag: (list: PropsTagItem[], item: PropsTagItem) => PropsTagItem[];
-  createTag: (list: PropsTagItem[], item: PropsTagItem) => PropsTagItem[];
   setFilter: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
   filter: PropsTagItem[];
   isEdit?: boolean;
 }
 
 const Tags = (props: PropsTags) => {
-  const {
-    tagList,
-    setTagList,
-    filter,
-    setFilter,
-    removeTag,
-    createTag,
-    isEdit = false
-  } = props;
+  const { tagList, setTagList, filter, setFilter, isEdit = false } = props;
 
   const [showCreatTagBtn, setShowCreatTagBtn] = useState(false);
 
   const tagTextRef = useRef<HTMLInputElement>(null);
   const tagColorRef = useRef<HTMLInputElement>(null);
+
+  const removeTag = (list: PropsTagItem[], item: PropsTagItem) => {
+    return list.filter((prevItem: PropsTagItem) => prevItem.id !== item.id);
+  };
+
+  const createTag = (list: PropsTagItem[] = [], item: PropsTagItem) => {
+    return list.concat(item);
+  };
 
   const toggleTagId = (prevTags: PropsTagItem[] = [], tag: PropsTagItem) => {
     if (findSameItem(prevTags, 'id', tag.id) !== -1) {

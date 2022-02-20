@@ -7,8 +7,11 @@
 
 @import './components/progress';
 @import './components/tag_item';
+@import './components/todo_list_item';
 
 @import './containers/header';
 @import './containers/tags';
+@import './containers/search';
+@import './containers/todo_list';
 
 @import './pages/main_page';
