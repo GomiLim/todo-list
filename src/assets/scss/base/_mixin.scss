@@ -1,0 +1,15 @@
+@mixin fontfamily($weight) {
+  font-family: $weight;
+}
+
+@mixin commonboxStyle(
+  $color: $secondary-color-dark,
+  $bg: $secondary-color-white
+) {
+  color: $color;
+  background-color: $bg;
+  box-shadow: $box-shadow;
+  border-radius: 5px;
+  padding: 5px 20px;
+  margin: 0 10px 10px 0;
+}
