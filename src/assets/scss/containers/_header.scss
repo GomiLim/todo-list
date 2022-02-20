@@ -1,4 +1,5 @@
 .header-area {
+  margin-bottom: 25px;
   .today-area {
     text-align: right;
     font-size: 35px;
@@ -6,12 +7,12 @@
     color: $secondary-color-dark;
 
     .today-title {
-      font-weight: 300;
       text-transform: capitalize;
+      @include fontfamily($font-weight-Thin);
     }
 
     .today {
-      font-weight: 700;
+      @include fontfamily($font-weight-bold);
     }
   }
 
@@ -22,7 +23,7 @@
 
     .progress-label {
       font-size: 20px;
-      font-weight: 300;
+      @include fontfamily($font-weight-Thin);
       line-height: 23.44px;
       color: $secondary-color-dark;
       margin-bottom: 10px;

@@ -1,0 +1,5 @@
+.tag-item {
+  display: inline-block;
+  line-height: 1;
+  @include commonboxStyle();
+}
