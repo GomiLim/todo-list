@@ -2,15 +2,15 @@ import React, { HtmlHTMLAttributes, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { MAIN_COLOR, SECONDARY_COLOR_GRAY_1 } from 'libs/constant';
-import { PropsTagItem } from 'models';
+import { TagItemInterface } from 'models';
 
-interface PropsTagItemExtends extends HtmlHTMLAttributes<HTMLDivElement> {
+interface TagItemInterfaceExtends extends HtmlHTMLAttributes<HTMLDivElement> {
   id: string;
   status: boolean;
   isEdit?: boolean;
-  tag: PropsTagItem;
-  handleRemoveTag?: (tag: PropsTagItem) => void;
-  handleEditTag?: (tag: PropsTagItem) => void;
+  tag: TagItemInterface;
+  handleRemoveTag?: (tag: TagItemInterface) => void;
+  handleEditTag?: (tag: TagItemInterface) => void;
 }
 
 const StyledTagItem = styled.div<{
@@ -68,7 +68,7 @@ const StyledTagItem = styled.div<{
   }
 `;
 
-const TagItem = (props: PropsTagItemExtends) => {
+const TagItem = (props: TagItemInterfaceExtends) => {
   const {
     tag,
     status,
@@ -88,7 +88,7 @@ const TagItem = (props: PropsTagItemExtends) => {
     setTagTextValue(updateText);
   };
 
-  const handleSaveUpdateTag = (tag: PropsTagItem) => {
+  const handleSaveUpdateTag = (tag: TagItemInterface) => {
     handleEditTag && handleEditTag(tag);
     setEditMode(false);
   };

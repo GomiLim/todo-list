@@ -1,18 +1,18 @@
 import React, { HTMLAttributes, useContext, useEffect, useState } from 'react';
 
 import { Portal, TodoList } from 'containers';
-import { PropsTagItem, TodoListInterface } from 'models';
+import { TagItemInterface, TodoListInterface } from 'models';
 import { ModalContext } from 'context/ModalContext';
-import { CreatTodoModal } from 'components';
+import { CreateTodoModal } from 'components';
 import EmptyContent from 'containers/Empty/EmptyContent';
 
 interface PropsTodo extends HTMLAttributes<HTMLDivElement> {
   todoList: TodoListInterface[];
   originTodoList: TodoListInterface[];
   setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
-  tagList: PropsTagItem[];
-  setTagList: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  filter: PropsTagItem[];
+  tagList: TagItemInterface[];
+  setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
+  filter: TagItemInterface[];
   keyword: string;
 }
 
@@ -76,13 +76,13 @@ const Todo = (props: PropsTodo) => {
       )}
 
       <div className="todo-button-area">
-        <button className="creat-todo" onClick={openModal}>
+        <button className="create-todo" onClick={openModal}>
           + ADD NEW TASK
         </button>
       </div>
       {isModalVisible && (
         <Portal>
-          <CreatTodoModal
+          <CreateTodoModal
             tagList={tagList}
             setTagList={setTagList}
             setTodoList={setTodoList}

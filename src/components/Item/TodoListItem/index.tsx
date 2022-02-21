@@ -3,7 +3,7 @@ import React, { HtmlHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { CommonCheckBox } from 'components/CheckBox';
 import { TagItem } from '..';
-import { PropsTagItem, TodoListInterface } from 'models';
+import { TagItemInterface, TodoListInterface } from 'models';
 import { MAIN_COLOR, SECONDARY_COLOR_WHITE } from 'libs/constant';
 
 interface PropsTodoListItem extends HtmlHTMLAttributes<HTMLDivElement> {
@@ -102,7 +102,7 @@ const TodoListItem = (props: PropsTodoListItem) => {
           </div>
         </div>
         <div className="todo-item-tag-area">
-          {todo.tagList.map((tag: PropsTagItem, index: number) => {
+          {todo.tagList.map((tag: TagItemInterface, index: number) => {
             return (
               <TagItem
                 key={`${tag.text}-${index}`}

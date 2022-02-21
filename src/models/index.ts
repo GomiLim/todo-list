@@ -1,16 +1,13 @@
-export interface PropsTagItem {
+export interface TagItemInterface {
   id: string;
   tagIcoColor: string;
   text: string;
-}
-export interface PropsTagList {
-  tagList: PropsTagItem[];
 }
 
 export interface TodoListInterface {
   id: string;
   title: string;
   content: string;
-  tagList: PropsTagItem[];
+  tagList: TagItemInterface[];
   isComplete: boolean;
 }

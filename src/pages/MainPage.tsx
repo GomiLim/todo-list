@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Header, Search, Tags, Todo } from 'containers';
 
-import { PropsTagItem, TodoListInterface } from 'models';
+import { TagItemInterface, TodoListInterface } from 'models';
 import { findSameItem } from 'libs/utill';
 
 const MainPage = () => {
   const [todoList, setTodoList] = useState<TodoListInterface[]>(
     JSON.parse(localStorage.getItem('todo-list') as string) ?? []
   );
-  const [tagList, setTagList] = useState<PropsTagItem[]>(
+  const [tagList, setTagList] = useState<TagItemInterface[]>(
     JSON.parse(localStorage.getItem('tag-list') as string) ?? []
   );
-  const [filter, setFilter] = useState<PropsTagItem[]>([]);
+  const [filter, setFilter] = useState<TagItemInterface[]>([]);
   const [keyword, setKeyword] = useState<string>('');
 
   const filterTodoListBySearchKeyword = (
@@ -26,13 +26,13 @@ const MainPage = () => {
   };
 
   const filterTodoListByActiveTags = (
-    filter: PropsTagItem[],
+    filter: TagItemInterface[],
     todoList: TodoListInterface[]
   ) => {
     const _todoList = [...todoList];
     if (!filter.length) return _todoList;
     return _todoList.filter((todoItem: TodoListInterface) => {
-      return todoItem.tagList.find((todoTag: PropsTagItem) => {
+      return todoItem.tagList.find((todoTag: TagItemInterface) => {
         return findSameItem(filter, 'id', todoTag.id) !== -1;
       });
     });
@@ -48,11 +48,11 @@ const MainPage = () => {
 
   const updateTodoForTagChange = (
     todoList: TodoListInterface[],
-    tagList: PropsTagItem[]
+    tagList: TagItemInterface[]
   ) => {
     const reflectingTagChange = todoList.map((todo: TodoListInterface) => {
-      const newTagList: PropsTagItem[] = [];
-      todo.tagList.filter((todoTag: PropsTagItem) => {
+      const newTagList: TagItemInterface[] = [];
+      todo.tagList.filter((todoTag: TagItemInterface) => {
         if (findSameItem(tagList, 'id', todoTag.id) !== -1) {
           return newTagList.push({
             ...todoTag,
@@ -66,8 +66,8 @@ const MainPage = () => {
   };
 
   const updateFilterForTagChange = (
-    tagList: PropsTagItem[],
-    filterList: PropsTagItem[]
+    tagList: TagItemInterface[],
+    filterList: TagItemInterface[]
   ) => {
     const reflectingTagChange = filterList.filter(filter =>
       tagList.find(item => item.id === filter.id)
@@ -85,7 +85,7 @@ const MainPage = () => {
 
   return (
     <div className="main-page">
-      <Header todoList={todoList} />
+      <Header todoList={getFilteredTodoList()} />
       <Tags
         tagList={tagList}
         setTagList={setTagList}
