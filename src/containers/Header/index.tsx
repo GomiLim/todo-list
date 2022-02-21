@@ -11,17 +11,13 @@ const Header = (todoList: { todoList: TodoListInterface[] }) => {
       </div>
       <TodoProgress
         className="task-progress-area"
-        label={`${
-          localStorage.getItem('todo-list') &&
-          JSON.parse(localStorage.getItem('todo-list') as string).length
-        }
+        label={`${todoList ? todoList.todoList.length : 0}
         Task`}
         totalTodo={
-          localStorage.getItem('todo-list') &&
-          JSON.parse(localStorage.getItem('todo-list') as string).length
+          localStorage.getItem('todo-list') ? todoList.todoList.length : 0
         }
         completeTodo={
-          todoList
+          localStorage.getItem('todo-list')
             ? todoList.todoList.filter(
                 (item: TodoListInterface) => item.isComplete
               ).length
