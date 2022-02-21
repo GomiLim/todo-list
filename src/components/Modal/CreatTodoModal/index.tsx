@@ -17,10 +17,8 @@ interface PropsCreatTodo {
     list: TodoListInterface[],
     item: TodoListInterface
   ) => TodoListInterface[];
-  setEditItem: React.Dispatch<
-    React.SetStateAction<TodoListInterface | undefined>
-  >;
-  editItem?: TodoListInterface;
+  setEditItem: React.Dispatch<React.SetStateAction<TodoListInterface | null>>;
+  editItem?: TodoListInterface | null;
   edit?: boolean;
 }
 
@@ -64,18 +62,21 @@ const CreatTodoModal = (props: PropsCreatTodo) => {
   const handleCreateTodo = () => {
     setTodoList(prevTags => createTodo(prevTags, values));
     alert('생성 되었습니다.');
+    sessionStorage.setItem('edit-todo', '');
     closeModal();
   };
 
   const handleEditTodo = (item: TodoListInterface) => {
     setTodoList(prevList => editTodo(prevList, item));
     alert('수정 되었습니다.');
+    setEditItem(null);
     sessionStorage.setItem('edit-todo', '');
     closeModal();
   };
 
   const handleGoBack = () => {
     sessionStorage.setItem('edit-todo', '');
+    setEditItem(null);
     closeModal();
   };
 
