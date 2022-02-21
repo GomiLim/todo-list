@@ -60,6 +60,7 @@ const CreateTodoModal = (props: PropsCreateTodo) => {
   };
 
   const handleCreateTodo = () => {
+    if (!values.title) return alert('필수값을 모두 입력해주세요.');
     setTodoList(prevTags => createTodo(prevTags, values));
     alert('생성 되었습니다.');
     sessionStorage.setItem('edit-todo', '');
