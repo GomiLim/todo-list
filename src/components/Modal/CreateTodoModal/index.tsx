@@ -2,12 +2,12 @@ import React, { useContext, useState, useEffect, useLayoutEffect } from 'react';
 
 import { Tags } from 'containers';
 import { ModalContext } from 'context/ModalContext';
-import { PropsTagItem, TodoListInterface } from 'models';
+import { TagItemInterface, TodoListInterface } from 'models';
 import { todoInitialValue } from 'models/initialValue';
 
-interface PropsCreatTodo {
-  setTagList: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  tagList: PropsTagItem[];
+interface PropsCreateTodo {
+  setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
+  tagList: TagItemInterface[];
   setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
   createTodo: (
     list: TodoListInterface[],
@@ -22,7 +22,7 @@ interface PropsCreatTodo {
   edit?: boolean;
 }
 
-const CreatTodoModal = (props: PropsCreatTodo) => {
+const CreateTodoModal = (props: PropsCreateTodo) => {
   const {
     setTodoList,
     tagList,
@@ -38,7 +38,7 @@ const CreatTodoModal = (props: PropsCreatTodo) => {
     ...todoInitialValue,
     id: String(Date.now())
   });
-  const [selectTag, setSelectTag] = useState<PropsTagItem[]>([]);
+  const [selectTag, setSelectTag] = useState<TagItemInterface[]>([]);
   const { closeModal } = useContext(ModalContext);
 
   const handleSetValue = (field: string, value: string) => {
@@ -50,7 +50,7 @@ const CreatTodoModal = (props: PropsCreatTodo) => {
     });
   };
 
-  const handleToggleSelectTag = (selectTag: PropsTagItem[]) => {
+  const handleToggleSelectTag = (selectTag: TagItemInterface[]) => {
     setValues(prev => {
       return {
         ...prev,
@@ -100,19 +100,19 @@ const CreatTodoModal = (props: PropsCreatTodo) => {
   }, [editItem]);
 
   return (
-    <div className="creat-todo-area">
+    <div className="create-todo-area">
       <button onClick={handleGoBack} className="close-btn">
         CLOSE
       </button>
 
       <h2 className="title">새로운 일정 생성</h2>
-      <div className="creat-todo-input">
-        <label htmlFor="creat-todo-title" className="required">
+      <div className="create-todo-input">
+        <label htmlFor="create-todo-title" className="required">
           *
         </label>
         <input
           type="text"
-          id="creat-todo-title"
+          id="create-todo-title"
           required
           maxLength={20}
           placeholder="제목을 입력하세요"
@@ -122,7 +122,7 @@ const CreatTodoModal = (props: PropsCreatTodo) => {
       </div>
       <textarea
         name=""
-        id="creat-todo-content"
+        id="create-todo-content"
         cols={30}
         rows={5}
         placeholder="설명을 입력하세요"
@@ -140,7 +140,7 @@ const CreatTodoModal = (props: PropsCreatTodo) => {
       />
       <button
         type="submit"
-        className="creat-btn"
+        className="create-btn"
         onClick={() => (edit ? handleEditTodo(values) : handleCreateTodo())}
       >
         {edit ? '수정하기' : '생성하기'}
@@ -149,4 +149,4 @@ const CreatTodoModal = (props: PropsCreatTodo) => {
   );
 };
 
-export default React.memo(CreatTodoModal);
+export default React.memo(CreateTodoModal);

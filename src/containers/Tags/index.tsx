@@ -1,17 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { PropsTagItem, PropsTagList } from 'models';
+import { TagItemInterface } from 'models';
 import { TagItem } from 'components';
 import { findSameItem } from 'libs/utill';
 import { CreateTag } from 'components/Inputs';
 import { MAIN_COLOR } from 'libs/constant';
 
-interface PropsTags extends PropsTagList {
-  setTagList: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  tagList: PropsTagItem[];
-  setSelectTag?: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  selectTag?: PropsTagItem[];
-  setFilter?: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  filter?: PropsTagItem[];
+interface PropsTags {
+  setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
+  tagList: TagItemInterface[];
+  setSelectTag?: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
+  selectTag?: TagItemInterface[];
+  setFilter?: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
+  filter?: TagItemInterface[];
   isEdit?: boolean;
 }
 
@@ -26,63 +26,20 @@ const Tags = (props: PropsTags) => {
     isEdit = false
   } = props;
 
-  const [showCreatTagBtn, setShowCreatTagBtn] = useState(false);
+  const [showCreateTagBtn, setShowCreateTagBtn] = useState(false);
 
   const tagTextRef = useRef<HTMLInputElement>(null);
   const tagColorRef = useRef<HTMLInputElement>(null);
 
-  const removeTag = (list: PropsTagItem[], item: PropsTagItem) => {
-    return list.filter((prevItem: PropsTagItem) => prevItem.id !== item.id);
+  const removeTag = (list: TagItemInterface[], item: TagItemInterface) => {
+    return list.filter((prevItem: TagItemInterface) => prevItem.id !== item.id);
   };
 
-  const createTag = (list: PropsTagItem[] = [], item: PropsTagItem) => {
+  const createTag = (list: TagItemInterface[] = [], item: TagItemInterface) => {
     return list.concat(item);
   };
 
-  const toggleTagId = (prevTags: PropsTagItem[] = [], tag: PropsTagItem) => {
-    if (findSameItem(prevTags, 'id', tag.id) !== -1) {
-      return removeTag(prevTags, tag);
-    } else {
-      return createTag(prevTags, tag);
-    }
-  };
-
-  const handleSelectTag = (tag: PropsTagItem) => {
-    if (setFilter) {
-      setFilter(prevTags => toggleTagId(prevTags, tag));
-    }
-
-    if (setSelectTag) {
-      setSelectTag(prevTags => toggleTagId(prevTags, tag));
-    }
-  };
-
-  const resetCreatInputs = () => {
-    if (tagTextRef.current && tagColorRef.current) {
-      tagTextRef.current.value = '';
-      tagColorRef.current.value = MAIN_COLOR;
-    }
-  };
-
-  const handleCreateTag = (tag: PropsTagItem) => {
-    if (!tag.tagIcoColor || !tag.text) return alert('값을 전부 입력해주세요');
-    if (findSameItem(tagList, 'text', tag.text) !== -1) {
-      return alert('동일한 태그명이 존재합니다.');
-    }
-
-    setTagList(prevTags => createTag(prevTags, tag));
-    resetCreatInputs();
-  };
-
-  const handleRemoveTag = (tag: PropsTagItem) => {
-    if (
-      confirm('다른 곳에 추가된 태그일 수 있습니다.\n정말 삭제하시겠습니까?')
-    ) {
-      setTagList(prevTags => removeTag(prevTags, tag));
-    }
-  };
-
-  const editTag = (list: PropsTagItem[], tag: PropsTagItem) => {
+  const editTag = (list: TagItemInterface[], tag: TagItemInterface) => {
     const updateText = list.map(prevTag => {
       if (prevTag.id === tag.id) {
         return tag;
@@ -92,12 +49,58 @@ const Tags = (props: PropsTags) => {
     return updateText;
   };
 
-  const handleEditTag = (tag: PropsTagItem) => {
-    setTagList((prev: PropsTagItem[]) => editTag(prev, tag));
+  const toggleTagId = (
+    prevTags: TagItemInterface[] = [],
+    tag: TagItemInterface
+  ) => {
+    if (findSameItem(prevTags, 'id', tag.id) !== -1) {
+      return removeTag(prevTags, tag);
+    } else {
+      return createTag(prevTags, tag);
+    }
   };
 
-  const handleShowCreatTagBtn = () => {
-    setShowCreatTagBtn(true);
+  const handleSelectTag = (tag: TagItemInterface) => {
+    if (setFilter) {
+      setFilter(prevTags => toggleTagId(prevTags, tag));
+    }
+
+    if (setSelectTag) {
+      setSelectTag(prevTags => toggleTagId(prevTags, tag));
+    }
+  };
+
+  const resetCreateInputs = () => {
+    if (tagTextRef.current && tagColorRef.current) {
+      tagTextRef.current.value = '';
+      tagColorRef.current.value = MAIN_COLOR;
+    }
+  };
+
+  const handleCreateTag = (tag: TagItemInterface) => {
+    if (!tag.tagIcoColor || !tag.text) return alert('값을 전부 입력해주세요');
+    if (findSameItem(tagList, 'text', tag.text) !== -1) {
+      return alert('동일한 태그명이 존재합니다.');
+    }
+
+    setTagList(prevTags => createTag(prevTags, tag));
+    resetCreateInputs();
+  };
+
+  const handleRemoveTag = (tag: TagItemInterface) => {
+    if (
+      confirm('다른 곳에 추가된 태그일 수 있습니다.\n정말 삭제하시겠습니까?')
+    ) {
+      setTagList(prevTags => removeTag(prevTags, tag));
+    }
+  };
+
+  const handleEditTag = (tag: TagItemInterface) => {
+    setTagList((prev: TagItemInterface[]) => editTag(prev, tag));
+  };
+
+  const handleShowCreateTagBtn = () => {
+    setShowCreateTagBtn(true);
   };
 
   useEffect(() => {
@@ -112,7 +115,7 @@ const Tags = (props: PropsTags) => {
     <div className="tag-area">
       <p className="tag-title">Tags</p>
       <div className="tag-list">
-        {tagList.map((tag: PropsTagItem, index: number) => {
+        {tagList.map((tag: TagItemInterface, index: number) => {
           return (
             <TagItem
               key={`${tag.text}-${index}`}
@@ -132,14 +135,14 @@ const Tags = (props: PropsTags) => {
         })}
         {isEdit && (
           <div className="create-tag-area">
-            {showCreatTagBtn && (
+            {showCreateTagBtn && (
               <CreateTag
                 onSave={handleCreateTag}
                 tagTextRef={tagTextRef}
                 tagColorRef={tagColorRef}
               />
             )}
-            <button className="creat-tag" onClick={handleShowCreatTagBtn}>
+            <button className="create-tag" onClick={handleShowCreateTagBtn}>
               <svg
                 width="17"
                 height="17"

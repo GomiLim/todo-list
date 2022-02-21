@@ -1,4 +1,4 @@
-import { PropsTagItem } from 'models';
+import { TagItemInterface } from 'models';
 
 export type DateType = Date | string | number;
 
@@ -42,13 +42,15 @@ export const dateFormater = (format: string, date?: DateType): string => {
 };
 
 export const findSameItem = (
-  list: PropsTagItem[] = [],
+  list: TagItemInterface[] = [],
   item_type: string,
   item: string
 ) => {
   if (item_type == 'id') {
-    return list.findIndex((listItem: PropsTagItem) => listItem.id === item);
+    return list.findIndex((listItem: TagItemInterface) => listItem.id === item);
   } else {
-    return list.findIndex((listItem: PropsTagItem) => listItem.text === item);
+    return list.findIndex(
+      (listItem: TagItemInterface) => listItem.text === item
+    );
   }
 };

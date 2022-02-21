@@ -1,1 +1,1 @@
-export { default as CreatTodoModal } from './CreatTodoModal';
+export { default as CreateTodoModal } from './CreateTodoModal';

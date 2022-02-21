@@ -1,4 +1,4 @@
-.creat-todo-area {
+.create-todo-area {
   position: relative;
   width: 45vw;
   min-width: 375px;
@@ -20,11 +20,11 @@
   .title {
     margin-bottom: 40px;
   }
-  .creat-todo-input {
+  .create-todo-input {
     display: flex;
     position: relative;
   }
-  #creat-todo-title {
+  #create-todo-title {
     border-bottom: 1px solid $secondary-color-gray-2;
     padding: 0 0 5px 15px;
 
@@ -41,7 +41,7 @@
     justify-content: center;
   }
 
-  #creat-todo-content {
+  #create-todo-content {
     margin-top: 15px;
     width: 100%;
     border: 1px solid $secondary-color-gray-2;
@@ -51,7 +51,7 @@
       color: $secondary-color-gray-2;
     }
   }
-  .creat-btn {
+  .create-btn {
     @include commonButtonStyle();
   }
 
