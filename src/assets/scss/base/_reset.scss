@@ -1,7 +1,7 @@
 body {
   min-width: 320px;
   line-height: normal;
-  font-size: 14px;
+  font-size: $font-size-14;
   color: #000;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased; // 맥에서 폰트가 조금 굵어보이는 부분을 리셋해줌
@@ -16,7 +16,7 @@ table,
 button,
 code {
   font-family: $font-default;
-  font-size: 16px;
+  font-size: $font-size-16;
 }
 
 *,

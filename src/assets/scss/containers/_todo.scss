@@ -1,12 +1,10 @@
 .todo-area {
   .todo-button-area {
-    position: fixed;
-    width: $content-max-width;
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 0;
-    height: 110px;
-
+    bottom: 20px;
+    background-attachment: red;
     .create-todo {
       display: block;
       width: 40vw;
@@ -19,7 +17,36 @@
       text-align: center;
       padding: 26px 0;
       @include fontfamily($font-weight-bold);
-      font-size: 20px;
+      font-size: $font-size-20;
+      @media only screen and (max-width: 600px) {
+        position: relative;
+        color: $secondary-color-dark;
+        width: 80px;
+        height: 80px;
+        min-width: auto;
+        overflow: hidden;
+        border-radius: 100%;
+        line-height: 1;
+
+        &::after {
+          pointer-events: none;
+          content: url(https://img.icons8.com/android/24/000000/plus.png);
+          width: 80px;
+          height: 80px;
+          border-radius: 100%;
+          filter: invert(100%);
+          position: absolute;
+          left: 0;
+          top: -10px;
+          font-size: 70px;
+        }
+      }
+    }
+    @media only screen and (max-width: 600px) {
+      left: auto;
+      right: 20px;
+      bottom: 20px;
+      transform: translate(0px);
     }
   }
 

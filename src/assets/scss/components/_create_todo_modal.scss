@@ -1,4 +1,6 @@
 .create-todo-area {
+  content: 'sadasdasdas';
+  @include customScrollBar();
   position: relative;
   width: 45vw;
   min-width: 375px;
@@ -9,12 +11,15 @@
   padding: $layout-padding;
   margin: 0 auto;
   background: $secondary-color-white;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   .close-btn {
-    position: absolute;
-    right: 20px;
-    top: 20px;
+    position: sticky;
     @include fontfamily($font-weight-bold);
+    top: 0px;
+    float: right;
   }
 
   .title {

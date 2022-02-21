@@ -14,6 +14,7 @@
   }
 
   .todo-item-area {
+    position: relative;
     width: 100%;
     .todo-item-content-area {
       display: flex;
@@ -23,14 +24,15 @@
 
   .todo-item-content {
     .title {
+      max-width: 300px;
       @include fontfamily($font-weight-bold);
-      font-size: 20px;
+      font-size: $font-size-20;
       line-height: 23px;
       margin-bottom: 10px;
     }
 
     .content {
-      font-size: 16px;
+      font-size: $font-size-16;
       line-height: 19px;
       color: $secondary-color-gray-3;
     }
@@ -39,8 +41,9 @@
   .todo-item-buttons {
     opacity: 0;
     visibility: hidden;
+    text-align: right;
+    font-size: $font-size-14;
 
-    font-size: 14px;
     .edit-buttons {
       position: relative;
       padding-right: 11px;

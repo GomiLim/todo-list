@@ -4,14 +4,14 @@
   flex-direction: column;
 
   .progress-label {
-    font-size: 20px;
+    font-size: $font-size-20;
     @include fontfamily($font-weight-thin);
     line-height: 23.44px;
     color: $secondary-color-dark;
     margin-bottom: 10px;
   }
   .progress-status {
-    font-size: 14px;
+    font-size: $font-size-14;
     @include fontfamily($font-weight-thin);
     margin-left: 15px;
   }
