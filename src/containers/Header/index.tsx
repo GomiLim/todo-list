@@ -1,18 +1,32 @@
 import React from 'react';
-import { Progress as TaskProgress, Today } from 'components';
+import { Progress as TodoProgress, Today } from 'components';
+import { TodoListInterface } from '../../models/index';
 
-const Header = () => {
-  const task = ['1', '2', '3', '4', '5', '6', '7'];
+const Header = (todoList: { todoList: TodoListInterface[] }) => {
   return (
     <div className="header-area">
       <div className="today-area">
         <p className="today-title">today</p>
         <Today timezoneFormat="dd m-contraction" />
       </div>
-      <TaskProgress
+      <TodoProgress
         className="task-progress-area"
-        label={`${task.length} Task`}
-        task={task}
+        label={`${
+          localStorage.getItem('todo-list') &&
+          JSON.parse(localStorage.getItem('todo-list') as string).length
+        }
+        Task`}
+        totalTodo={
+          localStorage.getItem('todo-list') &&
+          JSON.parse(localStorage.getItem('todo-list') as string).length
+        }
+        completeTodo={
+          todoList
+            ? todoList.todoList.filter(
+                (item: TodoListInterface) => item.isComplete
+              ).length
+            : 0
+        }
       />
     </div>
   );

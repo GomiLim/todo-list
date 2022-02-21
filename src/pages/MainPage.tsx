@@ -14,7 +14,7 @@ const MainPage = () => {
 
   return (
     <div className="main-page">
-      <Header />
+      <Header todoList={todoList} />
       <Tags
         tagList={tagList}
         setTagList={setTagList}
