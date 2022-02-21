@@ -1,10 +1,11 @@
 .main-page {
-  max-width: 750px;
-  min-width: 375px;
+  max-width: $content-max-width;
+  min-width: $content-min-width;
   width: 100vw;
   height: 100vh;
   overflow: auto;
   background: $secondary-color-white;
   margin: 0 auto;
   padding: $layout-padding;
+  padding-bottom: 130px;
 }

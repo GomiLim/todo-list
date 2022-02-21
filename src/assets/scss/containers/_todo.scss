@@ -1,0 +1,29 @@
+.todo-area {
+  .todo-button-area {
+    position: fixed;
+    width: $content-max-width;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    height: 110px;
+
+    .creat-todo {
+      display: block;
+      width: 40vw;
+      min-width: 300px;
+      border-radius: 5px;
+      margin: 0 auto;
+      background: $secondary-color-dark;
+      color: $secondary-color-white;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 26px 0;
+      @include fontfamily($font-weight-bold);
+      font-size: 20px;
+    }
+  }
+
+  .empty-area {
+    margin-top: 50px;
+  }
+}

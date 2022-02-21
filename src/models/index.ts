@@ -10,7 +10,7 @@ export interface PropsTagList {
 export interface TodoListInterface {
   id: string;
   title: string;
-  content: string | JSX.Element | JSX.Element[];
+  content: string;
   tagList: PropsTagItem[];
   isComplete: boolean;
 }

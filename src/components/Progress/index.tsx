@@ -2,20 +2,24 @@ import React, { HTMLAttributes } from 'react';
 
 interface PropsProgress extends HTMLAttributes<HTMLDivElement> {
   label?: string | JSX.Element | JSX.Element[];
-  task: string[];
+  totalTodo: number;
+  completeTodo: number;
 }
 const Progress = (props: PropsProgress) => {
-  const { task, label, ...rest } = props;
+  const { totalTodo, completeTodo, label, ...rest } = props;
   return (
     <div {...rest}>
-      <label className="progress-label" htmlFor="task">
-        {label ? label : task.length}
-      </label>
+      <div>
+        <label className="progress-label" htmlFor="task">
+          {label ? label : totalTodo}
+        </label>
+        <span className="progress-status">{`( ${completeTodo} / ${totalTodo} )`}</span>
+      </div>
       <progress
         className="progress"
         id="task"
-        max={task.length * 10}
-        value={1 * 10}
+        max={totalTodo * 10}
+        value={completeTodo * 10}
       ></progress>
     </div>
   );

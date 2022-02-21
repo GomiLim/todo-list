@@ -9,6 +9,8 @@ import { MAIN_COLOR, SECONDARY_COLOR_WHITE } from 'libs/constant';
 interface PropsTodoListItem extends HtmlHTMLAttributes<HTMLDivElement> {
   todo: TodoListInterface;
   setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
+  removeTodo: (item: TodoListInterface) => void;
+  editTodo: (item: TodoListInterface) => void;
 }
 
 const StyledTodoListItem = styled.div<{ checkBoxId: string }>`
@@ -54,16 +56,36 @@ const StyledTodoListItem = styled.div<{ checkBoxId: string }>`
 `;
 
 const TodoListItem = (props: PropsTodoListItem) => {
-  const { todo, setTodoList } = props;
+  const { todo, setTodoList, removeTodo, editTodo } = props;
 
-  console.log(setTodoList);
+  const handleComplete = (
+    list: TodoListInterface[],
+    item: TodoListInterface,
+    check: boolean
+  ) => {
+    const updateList = list.map(prevItem => {
+      if (prevItem.id === item.id) {
+        return { ...item, isComplete: check };
+      }
+      return prevItem;
+    });
+    return updateList;
+  };
+
+  const handleIsComplteTodo = (check: boolean) => {
+    setTodoList(prevList => handleComplete(prevList, todo, check));
+  };
 
   return (
     <StyledTodoListItem
       className="todo-list-item"
       checkBoxId={`todo-${todo.id}`}
     >
-      <CommonCheckBox id={`todo-${todo.id}`} />
+      <CommonCheckBox
+        id={`todo-${todo.id}`}
+        onChange={handleIsComplteTodo}
+        checkStatus={todo.isComplete ?? false}
+      />
       <div className="todo-item-area">
         <div className="todo-item-content-area">
           <div className="todo-item-content">
@@ -71,8 +93,12 @@ const TodoListItem = (props: PropsTodoListItem) => {
             <p className="content"> {todo.content}</p>
           </div>
           <div className="todo-item-buttons">
-            <button className="edit-buttons">수정</button>
-            <button className="delete-buttons">삭제</button>
+            <button className="edit-buttons" onClick={() => editTodo(todo)}>
+              수정
+            </button>
+            <button className="delete-buttons" onClick={() => removeTodo(todo)}>
+              삭제
+            </button>
           </div>
         </div>
         <div className="todo-item-tag-area">

@@ -1,13 +1,16 @@
+import React from 'react';
+
 import {
   MAIN_COLOR,
   SECONDARY_COLOR_GRAY_2,
   SECONDARY_COLOR_WHITE
 } from 'libs/constant';
-import React from 'react';
 import styled from 'styled-components';
 
 interface PropsCheckBox {
   id: string;
+  checkStatus: boolean;
+  onChange: (check: boolean) => void;
 }
 const StyledCheckBox = styled.div<{ inputId: string }>`
   input[type='checkbox'] {
@@ -75,10 +78,15 @@ const StyledCheckBox = styled.div<{ inputId: string }>`
   }
 `;
 const CommonCheckBox = (props: PropsCheckBox) => {
-  const { id } = props;
+  const { id, checkStatus, onChange } = props;
   return (
     <StyledCheckBox className="common-checkbox" inputId={id}>
-      <input type="checkbox" id={id} />
+      <input
+        type="checkbox"
+        id={id}
+        checked={checkStatus}
+        onChange={check => onChange(check.currentTarget.checked)}
+      />
       <label htmlFor={id} className="common-checkbox-label">
         <svg
           className="ico-check"

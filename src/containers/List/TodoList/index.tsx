@@ -1,79 +1,41 @@
-import React, { HTMLAttributes, useEffect } from 'react';
+import React, { HTMLAttributes, useContext } from 'react';
 import { TodoListInterface } from 'models';
 import { TodoListItem } from 'components';
+import { ModalContext } from 'context/ModalContext';
 
 interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
   todoList: TodoListInterface[];
   setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
+  removeTodo: (
+    list: TodoListInterface[],
+    item: TodoListInterface
+  ) => TodoListInterface[];
 }
 
 const TodoList = (props: PropsTodoList) => {
-  const { todoList, setTodoList } = props;
-  const dummyTodoList = [
-    {
-      id: String(Date.now() + 1),
-      title: '테스트1',
-      content: '테스트입니다.',
-      tagList: [
-        {
-          text: 'dsfkjhsdjkfhjsdkfhjk',
-          tagIcoColor: '#a760e9',
-          id: '1645350781631'
-        },
-        {
-          text: 'sdfjnsdjkfnjdkfhkjds',
-          tagIcoColor: '#a760e9',
-          id: '1645350784799'
-        },
-        {
-          text: 'dsfkjhsdjkfhjsdkfhjk',
-          tagIcoColor: '#a760e9',
-          id: '1645350781631'
-        },
-        {
-          text: 'sdfjnsdjkfnjdkfhkjds',
-          tagIcoColor: '#a760e9',
-          id: '1645350784799'
-        },
-        {
-          text: 'dsfkjhsdjkfhjsdkfhjk',
-          tagIcoColor: '#a760e9',
-          id: '1645350781631'
-        }
-      ],
-      isComplete: false
-    },
-    {
-      id: String(Date.now() + 2),
-      title: '테스트2',
-      content: '테스트입니다.',
-      tagList: [],
-      isComplete: false
-    }
-  ];
+  const { todoList, setTodoList, removeTodo } = props;
+  const { openModal } = useContext(ModalContext);
 
-  // const removeList = (list: TodoListInterface[], item: TodoListInterface) => {
-  //   return list.filter(
-  //     (prevItem: TodoListInterface) => prevItem.id !== item.id
-  //   );
-  // };
+  const handleRemoveTodo = (item: TodoListInterface) => {
+    setTodoList(prevList => removeTodo(prevList, item));
+  };
 
-  // const createList = (
-  //   list: TodoListInterface[] = [],
-  //   item: TodoListInterface
-  // ) => {
-  //   return list.concat(item);
-  // };
-
-  useEffect(() => {
-    setTodoList(dummyTodoList);
-  }, []);
+  const handleEditMode = (item: TodoListInterface) => {
+    sessionStorage.setItem('edit-todo', JSON.stringify(item));
+    openModal();
+  };
 
   return (
     <div className="todo-list-area">
       {todoList.map((item: TodoListInterface) => {
         return (
-          <TodoListItem key={item.id} todo={item} setTodoList={setTodoList} />
+          <TodoListItem
+            key={item.id}
+            todo={item}
+            setTodoList={setTodoList}
+            removeTodo={handleRemoveTodo}
+            editTodo={handleEditMode}
+          />
         );
       })}
     </div>

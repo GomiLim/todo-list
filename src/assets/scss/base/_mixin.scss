@@ -13,3 +13,18 @@
   padding: 5px 20px;
   margin: 0 10px 10px 0;
 }
+
+@mixin commonButtonStyle {
+  display: block;
+  width: 40vw;
+  min-width: 300px;
+  border-radius: 5px;
+  margin: 0 auto;
+  background: $secondary-color-dark;
+  color: $secondary-color-white;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 26px 0;
+  @include fontfamily($font-weight-bold);
+  font-size: 20px;
+}
