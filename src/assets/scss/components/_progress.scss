@@ -1,10 +1,27 @@
 .task-progress-area {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+
+  .progress-label {
+    font-size: 20px;
+    @include fontfamily($font-weight-thin);
+    line-height: 23.44px;
+    color: $secondary-color-dark;
+    margin-bottom: 10px;
+  }
+  .progress-status {
+    font-size: 14px;
+    @include fontfamily($font-weight-thin);
+    margin-left: 15px;
+  }
   .progress {
     background-color: $secondary-color-gray-1;
     height: 4px;
     width: 100%;
     border-radius: 99px;
     overflow: hidden;
+    margin-top: 5px;
 
     &::-webkit-progress-bar {
       background-color: $secondary-color-gray-1;
