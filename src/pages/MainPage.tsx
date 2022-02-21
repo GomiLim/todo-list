@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Header, Search, Tags } from 'containers';
+import { Header, Search, Tags, Todo } from 'containers';
 
 import { PropsTagItem, TodoListInterface } from 'models';
-import { TodoList } from 'containers/List';
 
 const MainPage = () => {
   const [todoList, setTodoList] = useState<TodoListInterface[]>(
@@ -23,7 +22,12 @@ const MainPage = () => {
         filter={filter}
       />
       <Search />
-      <TodoList todoList={todoList} setTodoList={setTodoList} />
+      <Todo
+        todoList={todoList}
+        setTodoList={setTodoList}
+        tagList={tagList}
+        setTagList={setTagList}
+      />
     </div>
   );
 };

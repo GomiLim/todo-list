@@ -5,13 +5,17 @@
 @import './base/mixin';
 @import './base/base';
 
+@import './components/global_modal';
 @import './components/progress';
 @import './components/tag_item';
 @import './components/todo_list_item';
+@import './components/creat_todo_modal';
 
 @import './containers/header';
 @import './containers/tags';
 @import './containers/search';
 @import './containers/todo_list';
+@import './containers/todo';
+@import './containers/empty';
 
 @import './pages/main_page';

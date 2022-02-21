@@ -7,13 +7,23 @@ import { MAIN_COLOR } from 'libs/constant';
 
 interface PropsTags extends PropsTagList {
   setTagList: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  setFilter: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  filter: PropsTagItem[];
+  setFilter?: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
+  filter?: PropsTagItem[];
   isEdit?: boolean;
+  setSelectTag?: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
+  selectTag?: PropsTagItem[];
 }
 
 const Tags = (props: PropsTags) => {
-  const { tagList, setTagList, filter, setFilter, isEdit = false } = props;
+  const {
+    tagList,
+    setTagList,
+    filter,
+    setFilter,
+    isEdit = false,
+    setSelectTag,
+    selectTag
+  } = props;
 
   const [showCreatTagBtn, setShowCreatTagBtn] = useState(false);
 
@@ -37,7 +47,13 @@ const Tags = (props: PropsTags) => {
   };
 
   const handleSelectTag = (tag: PropsTagItem) => {
-    setFilter(prevTags => toggleTagId(prevTags, tag));
+    if (setFilter) {
+      setFilter(prevTags => toggleTagId(prevTags, tag));
+    }
+
+    if (setSelectTag) {
+      setSelectTag(prevTags => toggleTagId(prevTags, tag));
+    }
   };
 
   const resetCreatInputs = () => {
@@ -69,7 +85,6 @@ const Tags = (props: PropsTags) => {
     localStorage.setItem('tag-list', JSON.stringify(tagList));
   }, [tagList, setTagList]);
 
-  console.log(handleShowCreatTagBtn);
   return (
     <div className="tag-area">
       <p className="tag-title">Tags</p>
@@ -79,7 +94,11 @@ const Tags = (props: PropsTags) => {
             <TagItem
               key={`${tag.text}-${index}`}
               id={tag.id}
-              status={findSameItem(filter, 'id', tag.id) !== -1 ? true : false}
+              status={
+                findSameItem(filter ?? selectTag, 'id', tag.id) !== -1
+                  ? true
+                  : false
+              }
               tagIcoColor={tag.tagIcoColor}
               text={tag.text}
               onClick={() => handleSelectTag(tag)}
@@ -95,7 +114,7 @@ const Tags = (props: PropsTags) => {
                 tagColorRef={tagColorRef}
               />
             )}
-            <button className="creat-tag">
+            <button className="creat-tag" onClick={handleShowCreatTagBtn}>
               <svg
                 width="17"
                 height="17"
