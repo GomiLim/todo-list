@@ -7,22 +7,23 @@ import { MAIN_COLOR } from 'libs/constant';
 
 interface PropsTags extends PropsTagList {
   setTagList: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
+  tagList: PropsTagItem[];
+  setSelectTag?: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
+  selectTag?: PropsTagItem[];
   setFilter?: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
   filter?: PropsTagItem[];
   isEdit?: boolean;
-  setSelectTag?: React.Dispatch<React.SetStateAction<PropsTagItem[]>>;
-  selectTag?: PropsTagItem[];
 }
 
 const Tags = (props: PropsTags) => {
   const {
-    tagList,
     setTagList,
-    filter,
-    setFilter,
-    isEdit = false,
+    tagList,
     setSelectTag,
-    selectTag
+    selectTag,
+    setFilter,
+    filter,
+    isEdit = false
   } = props;
 
   const [showCreatTagBtn, setShowCreatTagBtn] = useState(false);

@@ -1,49 +1,45 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
-const Search = () => {
-  const searchRef = useRef<HTMLInputElement>(null);
-  const [searchValue, setSearchValue] = useState('');
+interface PropsSearch {
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
+  keyword: string;
+}
+const Search = (props: PropsSearch) => {
+  const { setKeyword, keyword } = props;
   const [showClearBtn, setShowClearBtn] = useState(false);
 
   const handleClearInput = () => {
-    setSearchValue('');
+    setKeyword('');
+    setShowClearBtn(false);
   };
 
-  const handleUpdateInputValue = (keyword: string) => {
-    setSearchValue(keyword);
-  };
-
-  const handleShowClearButton = () => {
+  const showClearButton = () => {
     !showClearBtn && setShowClearBtn(true);
   };
 
-  const handleChangeSearchInput = (keyword: string) => {
-    handleUpdateInputValue(keyword);
-    handleShowClearButton();
+  const handleInputChange = (keyword: string) => {
+    setKeyword(keyword);
+    if (keyword) showClearButton();
+    else setShowClearBtn(false);
   };
 
-  const handleSearch = () => {
-    localStorage.setItem('search', searchValue);
-  };
+  const onSearch = (keyword: string) => setKeyword(keyword);
 
   return (
     <div className="search-area">
       <div className="search-item">
         <input
-          ref={searchRef}
           type="search"
           id="search-input"
           maxLength={20}
           aria-label="컨텐츠 검색"
-          value={searchValue}
-          onChange={keyword =>
-            handleChangeSearchInput(keyword.currentTarget.value)
-          }
+          value={keyword}
+          onChange={e => handleInputChange(e.currentTarget.value)}
         />
-        {searchValue && (
+        {showClearBtn && (
           <button className="clear-btn" onClick={handleClearInput}></button>
         )}
-        <button type="submit" onClick={handleSearch}>
+        <button type="submit" onClick={() => onSearch(keyword)}>
           검색
         </button>
       </div>
