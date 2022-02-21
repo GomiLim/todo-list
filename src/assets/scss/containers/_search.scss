@@ -14,9 +14,7 @@
 
   #search-input {
     height: 30px;
-    &:focus-visible {
-      outline: none;
-    }
+
     &::-ms-clear,
     &::-ms-reveal {
       display: none;

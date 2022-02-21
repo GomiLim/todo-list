@@ -1,4 +1,4 @@
-import React, { HtmlHTMLAttributes } from 'react';
+import React, { HtmlHTMLAttributes, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { MAIN_COLOR, SECONDARY_COLOR_GRAY_1 } from 'libs/constant';
@@ -10,6 +10,7 @@ interface PropsTagItemExtends extends HtmlHTMLAttributes<HTMLDivElement> {
   isEdit?: boolean;
   tag: PropsTagItem;
   handleRemoveTag?: (tag: PropsTagItem) => void;
+  handleEditTag?: (tag: PropsTagItem) => void;
 }
 
 const StyledTagItem = styled.div<{
@@ -24,11 +25,13 @@ const StyledTagItem = styled.div<{
   &:hover {
     border: 1px solid ${props => props.tagIcoColor ?? MAIN_COLOR};
   }
+
   ${props =>
     props.isEdit &&
     css`
       display: flex;
       align-items: center;
+      padding: 5px 0px 5px 20px;
       .remove-tag {
         width: 30px;
         height: 20px;
@@ -38,8 +41,18 @@ const StyledTagItem = styled.div<{
         border: none;
         outline: none;
         cursor: pointer;
-        transform: translateX(15px);
         z-index: 1;
+      }
+      .edit-tag {
+        width: 30px;
+        height: 20px;
+        border: none;
+        outline: none;
+        text-align: center;
+        margin-left: 10px;
+        img {
+          width: 20px;
+        }
       }
     `}
   &::before {
@@ -61,10 +74,24 @@ const TagItem = (props: PropsTagItemExtends) => {
     status,
     isEdit = false,
     handleRemoveTag,
-
+    handleEditTag,
     ...rest
   } = props;
+  const [editMode, setEditMode] = useState(false);
+  const [tagTextValue, setTagTextValue] = useState(tag.text);
 
+  const handleEditTagMode = () => {
+    setEditMode(true);
+  };
+
+  const handleEditText = (updateText: string) => {
+    setTagTextValue(updateText);
+  };
+
+  const handleSaveUpdateTag = (tag: PropsTagItem) => {
+    handleEditTag && handleEditTag(tag);
+    setEditMode(false);
+  };
   return (
     <StyledTagItem
       className="tag-item"
@@ -73,13 +100,43 @@ const TagItem = (props: PropsTagItemExtends) => {
       isEdit={isEdit}
       {...rest}
     >
-      {tag.text}
+      {editMode ? (
+        <input
+          type="text"
+          maxLength={20}
+          id={`tagtxt-${tag.id}`}
+          value={tagTextValue}
+          disabled={!editMode}
+          readOnly={!editMode}
+          onChange={updateText =>
+            handleEditText(updateText.currentTarget.value)
+          }
+        />
+      ) : (
+        <label htmlFor={`tagtxt-${tag.id}`}>{tagTextValue}</label>
+      )}
 
-      {isEdit && handleRemoveTag && (
-        <button
-          className="remove-tag"
-          onClick={() => handleRemoveTag(tag)}
-        ></button>
+      {isEdit && handleRemoveTag && handleEditTag && (
+        <>
+          <button
+            className="edit-tag"
+            onClick={() =>
+              editMode
+                ? handleSaveUpdateTag({ ...tag, text: tagTextValue })
+                : handleEditTagMode()
+            }
+          >
+            {editMode ? (
+              <img src="https://img.icons8.com/material-outlined/24/000000/save.png" />
+            ) : (
+              <img src="https://img.icons8.com/material-outlined/24/000000/edit--v1.png" />
+            )}
+          </button>
+          <button
+            className="remove-tag"
+            onClick={() => handleRemoveTag(tag)}
+          ></button>
+        </>
       )}
     </StyledTagItem>
   );

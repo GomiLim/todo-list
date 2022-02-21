@@ -48,29 +48,32 @@ const Todo = (props: PropsTodo) => {
     return updateList;
   };
 
-  const updateTodo = (
+  const updategTodoForTagChange = (
     todoList: TodoListInterface[],
     tagList: PropsTagItem[]
   ) => {
-    const removeDisableTagfromTodo = todoList.map((todo: TodoListInterface) => {
+    const reflectingTagChange = todoList.map((todo: TodoListInterface) => {
       const newTagList: PropsTagItem[] = [];
       todo.tagList.filter((todoTag: PropsTagItem) => {
         if (findSameItem(tagList, 'id', todoTag.id) !== -1) {
-          return newTagList.push(todoTag);
+          return newTagList.push({
+            ...todoTag,
+            text: tagList[findSameItem(tagList, 'id', todoTag.id)].text
+          });
         }
       });
       return { ...todo, tagList: newTagList };
     });
 
-    setTodoList(removeDisableTagfromTodo);
+    setTodoList(reflectingTagChange);
   };
 
   useEffect(() => {
     localStorage.setItem('todo-list', JSON.stringify(todoList));
-  }, [todoList]);
+  }, [todoList, tagList]);
 
   useEffect(() => {
-    updateTodo(todoList, tagList);
+    updategTodoForTagChange(todoList, tagList);
   }, [tagList]);
 
   return (

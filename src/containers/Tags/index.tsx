@@ -81,6 +81,20 @@ const Tags = (props: PropsTags) => {
     }
   };
 
+  const editTag = (list: PropsTagItem[], tag: PropsTagItem) => {
+    const updateText = list.map(prevTag => {
+      if (prevTag.id === tag.id) {
+        return tag;
+      }
+      return prevTag;
+    });
+    return updateText;
+  };
+
+  const handleEditTag = (tag: PropsTagItem) => {
+    setTagList((prev: PropsTagItem[]) => editTag(prev, tag));
+  };
+
   const handleShowCreatTagBtn = () => {
     setShowCreatTagBtn(true);
   };
@@ -110,6 +124,7 @@ const Tags = (props: PropsTags) => {
               tag={tag}
               isEdit={isEdit}
               handleRemoveTag={handleRemoveTag}
+              handleEditTag={handleEditTag}
               onClick={() => handleSelectTag(tag)}
             />
           );

@@ -28,9 +28,6 @@
     border-bottom: 1px solid $secondary-color-gray-2;
     padding: 0 0 5px 15px;
 
-    &:focus-visible {
-      outline: none;
-    }
     &::placeholder {
       color: $secondary-color-gray-2;
     }
@@ -52,9 +49,6 @@
 
     &::placeholder {
       color: $secondary-color-gray-2;
-    }
-    &:focus-visible {
-      outline: none;
     }
   }
   .creat-btn {
