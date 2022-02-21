@@ -124,9 +124,15 @@ textarea {
 table {
   width: 100%;
   table-layout: fixed;
-  border-collapse: collapse; // 테이블 셀마다 간격을 둘지 여부를 결정하는 부분 (collapse 를 주면 붙음 )
+  border-collapse: collapse;
 }
 
 img {
   vertical-align: top;
+}
+
+input {
+  &:focus-visible {
+    outline: none;
+  }
 }

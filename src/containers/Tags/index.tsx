@@ -73,6 +73,28 @@ const Tags = (props: PropsTags) => {
     resetCreatInputs();
   };
 
+  const handleRemoveTag = (tag: PropsTagItem) => {
+    if (
+      confirm('다른 곳에 추가된 태그일 수 있습니다.\n정말 삭제하시겠습니까?')
+    ) {
+      setTagList(prevTags => removeTag(prevTags, tag));
+    }
+  };
+
+  const editTag = (list: PropsTagItem[], tag: PropsTagItem) => {
+    const updateText = list.map(prevTag => {
+      if (prevTag.id === tag.id) {
+        return tag;
+      }
+      return prevTag;
+    });
+    return updateText;
+  };
+
+  const handleEditTag = (tag: PropsTagItem) => {
+    setTagList((prev: PropsTagItem[]) => editTag(prev, tag));
+  };
+
   const handleShowCreatTagBtn = () => {
     setShowCreatTagBtn(true);
   };
@@ -99,8 +121,10 @@ const Tags = (props: PropsTags) => {
                   ? true
                   : false
               }
-              tagIcoColor={tag.tagIcoColor}
-              text={tag.text}
+              tag={tag}
+              isEdit={isEdit}
+              handleRemoveTag={handleRemoveTag}
+              handleEditTag={handleEditTag}
               onClick={() => handleSelectTag(tag)}
             />
           );

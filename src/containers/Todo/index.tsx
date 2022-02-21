@@ -5,6 +5,7 @@ import { PropsTagItem, TodoListInterface } from 'models';
 import { ModalContext } from 'context/ModalContext';
 import { CreatTodoModal } from 'components';
 import EmptyContent from 'containers/Empty/EmptyContent';
+import { findSameItem } from '../../libs/utill';
 
 interface PropsTodo extends HTMLAttributes<HTMLDivElement> {
   todoList: TodoListInterface[];
@@ -47,9 +48,33 @@ const Todo = (props: PropsTodo) => {
     return updateList;
   };
 
+  const updategTodoForTagChange = (
+    todoList: TodoListInterface[],
+    tagList: PropsTagItem[]
+  ) => {
+    const reflectingTagChange = todoList.map((todo: TodoListInterface) => {
+      const newTagList: PropsTagItem[] = [];
+      todo.tagList.filter((todoTag: PropsTagItem) => {
+        if (findSameItem(tagList, 'id', todoTag.id) !== -1) {
+          return newTagList.push({
+            ...todoTag,
+            text: tagList[findSameItem(tagList, 'id', todoTag.id)].text
+          });
+        }
+      });
+      return { ...todo, tagList: newTagList };
+    });
+
+    setTodoList(reflectingTagChange);
+  };
+
   useEffect(() => {
     localStorage.setItem('todo-list', JSON.stringify(todoList));
-  }, [todoList]);
+  }, [todoList, tagList]);
+
+  useEffect(() => {
+    updategTodoForTagChange(todoList, tagList);
+  }, [tagList]);
 
   return (
     <div className="todo-area">
