@@ -87,18 +87,18 @@ const TodoListItem = (props: PropsTodoListItem) => {
         checkStatus={todo.isComplete ?? false}
       />
       <div className="todo-item-area">
+        <div className="todo-item-buttons">
+          <button className="edit-buttons" onClick={() => editTodo(todo)}>
+            수정
+          </button>
+          <button className="delete-buttons" onClick={() => removeTodo(todo)}>
+            삭제
+          </button>
+        </div>
         <div className="todo-item-content-area">
           <div className="todo-item-content">
             <p className="title"> {todo.title}</p>
             <p className="content"> {todo.content}</p>
-          </div>
-          <div className="todo-item-buttons">
-            <button className="edit-buttons" onClick={() => editTodo(todo)}>
-              수정
-            </button>
-            <button className="delete-buttons" onClick={() => removeTodo(todo)}>
-              삭제
-            </button>
           </div>
         </div>
         <div className="todo-item-tag-area">

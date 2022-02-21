@@ -101,43 +101,47 @@ const CreateTodoModal = (props: PropsCreateTodo) => {
 
   return (
     <div className="create-todo-area">
-      <button onClick={handleGoBack} className="close-btn">
-        CLOSE
-      </button>
+      <div>
+        <button onClick={handleGoBack} className="close-btn">
+          CLOSE
+        </button>
 
-      <h2 className="title">새로운 일정 생성</h2>
-      <div className="create-todo-input">
-        <label htmlFor="create-todo-title" className="required">
-          *
-        </label>
-        <input
-          type="text"
-          id="create-todo-title"
-          required
-          maxLength={20}
-          placeholder="제목을 입력하세요"
-          value={values.title}
-          onChange={title => handleSetValue('title', title.currentTarget.value)}
+        <h2 className="title">새로운 일정 생성</h2>
+        <div className="create-todo-input">
+          <label htmlFor="create-todo-title" className="required">
+            *
+          </label>
+          <input
+            type="text"
+            id="create-todo-title"
+            required
+            maxLength={20}
+            placeholder="제목을 입력하세요"
+            value={values.title}
+            onChange={title =>
+              handleSetValue('title', title.currentTarget.value)
+            }
+          />
+        </div>
+        <textarea
+          name=""
+          id="create-todo-content"
+          cols={30}
+          rows={5}
+          placeholder="설명을 입력하세요"
+          value={values.content}
+          onChange={content =>
+            handleSetValue('content', content.currentTarget.value)
+          }
+        ></textarea>
+        <Tags
+          tagList={tagList}
+          setTagList={setTagList}
+          isEdit
+          setSelectTag={setSelectTag}
+          selectTag={edit ? values.tagList : selectTag}
         />
       </div>
-      <textarea
-        name=""
-        id="create-todo-content"
-        cols={30}
-        rows={5}
-        placeholder="설명을 입력하세요"
-        value={values.content}
-        onChange={content =>
-          handleSetValue('content', content.currentTarget.value)
-        }
-      ></textarea>
-      <Tags
-        tagList={tagList}
-        setTagList={setTagList}
-        isEdit
-        setSelectTag={setSelectTag}
-        selectTag={edit ? values.tagList : selectTag}
-      />
       <button
         type="submit"
         className="create-btn"

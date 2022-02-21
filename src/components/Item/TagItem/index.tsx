@@ -19,11 +19,11 @@ const StyledTagItem = styled.div<{
   isEdit: boolean;
 }>`
   position: relative;
-  border: 1px solid
+  border: 2px solid
     ${props => (props.status ? props.tagIcoColor : SECONDARY_COLOR_GRAY_1)};
   cursor: pointer;
   &:hover {
-    border: 1px solid ${props => props.tagIcoColor ?? MAIN_COLOR};
+    border: 2px solid ${props => props.tagIcoColor ?? MAIN_COLOR};
   }
 
   ${props =>
