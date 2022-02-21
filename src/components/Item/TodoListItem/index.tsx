@@ -108,8 +108,7 @@ const TodoListItem = (props: PropsTodoListItem) => {
                 key={`${tag.text}-${index}`}
                 id={`todo-${tag.id}`}
                 status
-                tagIcoColor={tag.tagIcoColor}
-                text={tag.text}
+                tag={tag}
               />
             );
           })}

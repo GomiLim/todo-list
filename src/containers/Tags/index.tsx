@@ -73,6 +73,14 @@ const Tags = (props: PropsTags) => {
     resetCreatInputs();
   };
 
+  const handleRemoveTag = (tag: PropsTagItem) => {
+    if (
+      confirm('다른 곳에 추가된 태그일 수 있습니다.\n정말 삭제하시겠습니까?')
+    ) {
+      setTagList(prevTags => removeTag(prevTags, tag));
+    }
+  };
+
   const handleShowCreatTagBtn = () => {
     setShowCreatTagBtn(true);
   };
@@ -99,8 +107,9 @@ const Tags = (props: PropsTags) => {
                   ? true
                   : false
               }
-              tagIcoColor={tag.tagIcoColor}
-              text={tag.text}
+              tag={tag}
+              isEdit={isEdit}
+              handleRemoveTag={handleRemoveTag}
               onClick={() => handleSelectTag(tag)}
             />
           );
