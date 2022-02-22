@@ -1,3 +1,9 @@
+.create-todo-area-dim {
+  @include dim();
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .create-todo-area {
   content: 'sadasdasdas';
   @include customScrollBar();
@@ -38,7 +44,7 @@
   #create-todo-title {
     border-bottom: 1px solid $secondary-color-gray-2;
     padding: 0 0 5px 15px;
-
+    width: 100%;
     &::placeholder {
       color: $secondary-color-gray-2;
     }
@@ -50,6 +56,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .show-count {
+    font-size: 14;
+    color: $secondary-color-gray-2;
+    position: absolute;
+    right: 0;
+    top: -17px;
   }
 
   #create-todo-content {

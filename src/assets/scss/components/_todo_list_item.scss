@@ -28,13 +28,15 @@
       @include fontfamily($font-weight-bold);
       font-size: $font-size-20;
       line-height: 23px;
-      margin-bottom: 10px;
     }
 
     .content {
+      padding-top: 10px;
       font-size: $font-size-16;
       line-height: 19px;
       color: $secondary-color-gray-3;
+      word-break: break-word;
+      line-height: 1.5;
     }
   }
 

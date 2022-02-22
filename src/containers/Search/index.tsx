@@ -1,3 +1,4 @@
+import { TITLE_MAX_LENGTH } from 'libs/constant';
 import React, { useState } from 'react';
 
 interface PropsSearch {
@@ -31,7 +32,7 @@ const Search = (props: PropsSearch) => {
         <input
           type="search"
           id="search-input"
-          maxLength={20}
+          maxLength={TITLE_MAX_LENGTH}
           aria-label="컨텐츠 검색"
           value={keyword}
           autoComplete="off"
