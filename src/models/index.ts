@@ -11,3 +11,10 @@ export interface TodoListInterface {
   tagList: TagItemInterface[];
   isComplete: boolean;
 }
+
+export interface alertMessageInterface {
+  message: string | JSX.Element | JSX.Element[];
+  type?: 'info' | 'confirm';
+  completeEvent?: () => void;
+  cancelEvent?: () => void;
+}

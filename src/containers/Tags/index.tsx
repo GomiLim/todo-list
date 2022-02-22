@@ -1,9 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { TagItemInterface } from 'models';
-import { TagItem } from 'components';
+import React, { useRef, useEffect, useState, useContext } from 'react';
+import { CommonModal, TagItem } from 'components';
 import { findSameItem } from 'libs/utill';
 import { CreateTag } from 'components/Inputs';
 import { MAIN_COLOR } from 'libs/constant';
+import { PortalContext } from 'context/PortalContext';
+import { Portal } from 'containers';
+
+import { alertMessageInterface, TagItemInterface } from 'models';
 
 interface PropsTags {
   setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
@@ -27,6 +30,14 @@ const Tags = (props: PropsTags) => {
   } = props;
 
   const [showCreateTagBtn, setShowCreateTagBtn] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<alertMessageInterface>({
+    message: '',
+    type: 'info',
+    completeEvent: undefined,
+    cancelEvent: undefined
+  });
+
+  const { isModalVisible, openModal } = useContext(PortalContext);
 
   const tagTextRef = useRef<HTMLInputElement>(null);
   const tagColorRef = useRef<HTMLInputElement>(null);
@@ -78,9 +89,13 @@ const Tags = (props: PropsTags) => {
   };
 
   const handleCreateTag = (tag: TagItemInterface) => {
-    if (!tag.tagIcoColor || !tag.text) return alert('값을 전부 입력해주세요');
+    if (!tag.tagIcoColor || !tag.text) {
+      setAlertMessage({ message: '값을 전부 입력해주세요' });
+      return openModal();
+    }
     if (findSameItem(tagList, 'text', tag.text) !== -1) {
-      return alert('동일한 태그명이 존재합니다.');
+      setAlertMessage({ message: '동일한 태그명이 존재합니다' });
+      return openModal();
     }
 
     setTagList(prevTags => createTag(prevTags, tag));
@@ -88,11 +103,18 @@ const Tags = (props: PropsTags) => {
   };
 
   const handleRemoveTag = (tag: TagItemInterface) => {
-    if (
-      confirm('다른 곳에 추가된 태그일 수 있습니다.\n정말 삭제하시겠습니까?')
-    ) {
-      setTagList(prevTags => removeTag(prevTags, tag));
-    }
+    setAlertMessage({
+      message: (
+        <p>
+          다른 곳에 추가된 태그일 수 있습니다.
+          <br />
+          정말 삭제하시겠습니까?
+        </p>
+      ),
+      type: 'confirm',
+      completeEvent: () => setTagList(prevTags => removeTag(prevTags, tag))
+    });
+    return openModal();
   };
 
   const handleEditTag = (tag: TagItemInterface) => {
@@ -157,6 +179,16 @@ const Tags = (props: PropsTags) => {
           </div>
         )}
       </div>
+      {alertMessage.message && isModalVisible && (
+        <Portal>
+          <CommonModal
+            alertMessage={alertMessage}
+            setAlertMessage={setAlertMessage}
+          >
+            {alertMessage.message}
+          </CommonModal>
+        </Portal>
+      )}
     </div>
   );
 };
