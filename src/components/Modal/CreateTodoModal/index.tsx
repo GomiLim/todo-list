@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useLayoutEffect } from 'react';
 
 import { Tags } from 'containers';
-import { ModalContext } from 'context/ModalContext';
+import { PortalContext } from 'context/PortalContext';
 import { TagItemInterface, TodoListInterface } from 'models';
 import { todoInitialValue } from 'models/initialValue';
 
@@ -20,6 +20,7 @@ interface PropsCreateTodo {
   setEditItem: React.Dispatch<React.SetStateAction<TodoListInterface | null>>;
   editItem?: TodoListInterface | null;
   edit?: boolean;
+  setToastMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CreateTodoModal = (props: PropsCreateTodo) => {
@@ -31,7 +32,8 @@ const CreateTodoModal = (props: PropsCreateTodo) => {
     editTodo,
     editItem,
     setEditItem,
-    edit = false
+    edit = false,
+    setToastMessage
   } = props;
 
   const [values, setValues] = useState<TodoListInterface>({
@@ -39,7 +41,7 @@ const CreateTodoModal = (props: PropsCreateTodo) => {
     id: String(Date.now())
   });
   const [selectTag, setSelectTag] = useState<TagItemInterface[]>([]);
-  const { closeModal } = useContext(ModalContext);
+  const { closeModal, openToast } = useContext(PortalContext);
 
   const handleSetValue = (field: string, value: string) => {
     setValues(prev => {
@@ -59,26 +61,31 @@ const CreateTodoModal = (props: PropsCreateTodo) => {
     });
   };
 
+  const clearCreateModal = (message?: string) => {
+    if (message) {
+      setToastMessage(message);
+      openToast();
+    }
+    if (edit) {
+      setEditItem(null);
+      sessionStorage.setItem('edit-todo', '');
+    }
+    closeModal();
+  };
+
   const handleCreateTodo = () => {
     if (!values.title) return alert('필수값을 모두 입력해주세요.');
     setTodoList(prevTags => createTodo(prevTags, values));
-    alert('생성 되었습니다.');
-    sessionStorage.setItem('edit-todo', '');
-    closeModal();
+    clearCreateModal('생성 되었습니다.');
   };
 
   const handleEditTodo = (item: TodoListInterface) => {
     setTodoList(prevList => editTodo(prevList, item));
-    alert('수정 되었습니다.');
-    setEditItem(null);
-    sessionStorage.setItem('edit-todo', '');
-    closeModal();
+    clearCreateModal('수정 되었습니다.');
   };
 
   const handleGoBack = () => {
-    sessionStorage.setItem('edit-todo', '');
-    setEditItem(null);
-    closeModal();
+    clearCreateModal();
   };
 
   useEffect(() => {

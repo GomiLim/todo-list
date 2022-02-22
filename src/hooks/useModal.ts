@@ -2,6 +2,7 @@ import React from 'react';
 
 export const useModal = () => {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const [isToastVisible, setIsToastlVisible] = React.useState(false);
 
   const closeModal = () => {
     setIsModalVisible(false);
@@ -11,5 +12,9 @@ export const useModal = () => {
     setIsModalVisible(true);
   };
 
-  return { isModalVisible, openModal, closeModal };
+  const closeToast = () => {
+    setIsToastlVisible(false);
+  };
+
+  return { isModalVisible, openModal, closeModal, isToastVisible, closeToast };
 };

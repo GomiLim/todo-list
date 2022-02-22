@@ -104,6 +104,7 @@ const TagItem = (props: TagItemInterfaceExtends) => {
         <input
           type="text"
           maxLength={20}
+          autoComplete="off"
           id={`tagtxt-${tag.id}`}
           value={tagTextValue}
           disabled={!editMode}

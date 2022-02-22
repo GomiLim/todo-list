@@ -34,6 +34,7 @@ const Search = (props: PropsSearch) => {
           maxLength={20}
           aria-label="컨텐츠 검색"
           value={keyword}
+          autoComplete="off"
           onChange={e => handleInputChange(e.currentTarget.value)}
         />
         {showClearBtn && (

@@ -180,6 +180,28 @@ input:focus-visible {
   z-index: 100;
 }
 
+.global-toast {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.toast-message {
+  width: 340px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 16px;
+  margin: 8.5vh auto 0;
+  border-radius: 48px;
+  text-align: center;
+  padding: 10px;
+}
+
 .task-progress-area {
   text-align: left;
   display: flex;
@@ -328,6 +350,7 @@ input:focus-visible {
   position: relative;
   width: 45vw;
   min-width: 375px;
+  max-width: 400px;
   height: 90vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -364,11 +387,15 @@ input:focus-visible {
   width: 5px;
 }
 
+.create-todo-area > div {
+  width: 100%;
+}
+
 .create-todo-area .close-btn {
   position: sticky;
   font-family: Pretendard-Bold;
   top: 0px;
-  float: right;
+  left: 100%;
 }
 
 .create-todo-area .title {
@@ -422,6 +449,7 @@ input:focus-visible {
   padding: 26px 0;
   font-family: Pretendard-Bold;
   font-size: 1.25em;
+  width: 100%;
 }
 
 .create-todo-area .tag-area {
@@ -510,6 +538,7 @@ input:focus-visible {
   padding: 0 10px;
   height: 30px;
   margin-left: 10px;
+  width: 50px;
 }
 
 .tag-area .create-tag-area .create-tag {
@@ -584,7 +613,7 @@ input:focus-visible {
 
 .todo-area .todo-button-area .create-todo {
   display: block;
-  width: 40vw;
+  width: 30vw;
   min-width: 300px;
   border-radius: 5px;
   margin: 0 auto;

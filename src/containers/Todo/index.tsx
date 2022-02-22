@@ -2,8 +2,8 @@ import React, { HTMLAttributes, useContext, useEffect, useState } from 'react';
 
 import { Portal, TodoList } from 'containers';
 import { TagItemInterface, TodoListInterface } from 'models';
-import { ModalContext } from 'context/ModalContext';
-import { CreateTodoModal } from 'components';
+import { PortalContext } from 'context/PortalContext';
+import { CreateTodoModal, ToastMessage } from 'components';
 import EmptyContent from 'containers/Empty/EmptyContent';
 
 interface PropsTodo extends HTMLAttributes<HTMLDivElement> {
@@ -25,8 +25,9 @@ const Todo = (props: PropsTodo) => {
     setTagList,
     keyword
   } = props;
-  const { isModalVisible, openModal } = useContext(ModalContext);
-
+  const { isModalVisible, openModal, isToastVisible } =
+    useContext(PortalContext);
+  const [toastMessage, setToastMessage] = useState<string>('');
   const [editItem, setEditItem] = useState<TodoListInterface | null>(null);
 
   const removeTodo = (list: TodoListInterface[], item: TodoListInterface) => {
@@ -77,7 +78,7 @@ const Todo = (props: PropsTodo) => {
 
       <div className="todo-button-area">
         <button className="create-todo" onClick={openModal}>
-          + ADD NEW TASK
+          + ADD NEW TODO
         </button>
       </div>
       {isModalVisible && (
@@ -91,7 +92,15 @@ const Todo = (props: PropsTodo) => {
             setEditItem={setEditItem}
             editItem={editItem}
             edit={editItem ? true : false}
+            setToastMessage={setToastMessage}
           />
+        </Portal>
+      )}
+      {isToastVisible && (
+        <Portal className="global-toast">
+          <ToastMessage>
+            <div>{toastMessage}</div>
+          </ToastMessage>
         </Portal>
       )}
     </div>

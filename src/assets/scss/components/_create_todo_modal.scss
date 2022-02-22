@@ -16,11 +16,16 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  > div {
+    width: 100%;
+  }
+
   .close-btn {
     position: sticky;
     @include fontfamily($font-weight-bold);
     top: 0px;
-    float: right;
+    left: 100%;
   }
 
   .title {

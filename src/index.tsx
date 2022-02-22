@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import 'assets/scss/style.scss';
 import App from './App';
 
-import { ModalProvider } from 'context/ModalContext';
+import { PortalProvider } from 'context/PortalContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ModalProvider>
+    <PortalProvider>
       <App />
-    </ModalProvider>
+    </PortalProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

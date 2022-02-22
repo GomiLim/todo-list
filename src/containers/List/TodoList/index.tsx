@@ -1,7 +1,7 @@
 import React, { HTMLAttributes, useContext } from 'react';
 import { TodoListInterface } from 'models';
 import { TodoListItem } from 'components';
-import { ModalContext } from 'context/ModalContext';
+import { PortalContext } from 'context/PortalContext';
 
 interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
   todoList: TodoListInterface[];
@@ -14,7 +14,7 @@ interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
 
 const TodoList = (props: PropsTodoList) => {
   const { todoList, setTodoList, removeTodo } = props;
-  const { openModal } = useContext(ModalContext);
+  const { openModal } = useContext(PortalContext);
 
   const handleRemoveTodo = (item: TodoListInterface) => {
     setTodoList(prevList => removeTodo(prevList, item));
@@ -27,10 +27,10 @@ const TodoList = (props: PropsTodoList) => {
 
   return (
     <div className="todo-list-area">
-      {todoList.map((item: TodoListInterface) => {
+      {todoList.map((item: TodoListInterface, index: number) => {
         return (
           <TodoListItem
-            key={item.id}
+            key={`todo-item-${item.id + index}`}
             todo={item}
             setTodoList={setTodoList}
             removeTodo={handleRemoveTodo}
