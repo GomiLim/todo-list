@@ -4,6 +4,7 @@
   position: relative;
   width: 45vw;
   min-width: 375px;
+  max-width: 400px;
   height: 90vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -58,6 +59,7 @@
   }
   .create-btn {
     @include commonButtonStyle();
+    width: 100%;
   }
 
   .tag-area {
