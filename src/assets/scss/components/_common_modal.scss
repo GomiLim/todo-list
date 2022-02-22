@@ -1,0 +1,40 @@
+.modal-content-area {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  text-align: center;
+  display: flex;
+  width: 350px;
+  min-height: 190px;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 5px;
+  overflow: hidden;
+  .modal-content {
+    padding: 20px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+  .modal-button-area {
+    display: flex;
+    height: 15%;
+    flex: 0.4;
+    button {
+      width: 100%;
+      color: $secondary-color-white;
+      background-color: $main-color;
+      text-align: center;
+      @include fontfamily($font-weight-bold);
+    }
+    .modal-button-ok {
+      background-color: $main-color;
+    }
+    .modal-button-cancel {
+      background-color: $secondary-color-gray-2;
+    }
+  }
+}

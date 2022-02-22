@@ -1,9 +1,9 @@
 import React, { HTMLAttributes, useContext, useEffect, useState } from 'react';
 
-import { Portal, TodoList } from 'containers';
+import { Portal, TodoList, CreateTodo } from 'containers';
 import { TagItemInterface, TodoListInterface } from 'models';
 import { PortalContext } from 'context/PortalContext';
-import { CreateTodoModal, ToastMessage } from 'components';
+import { ToastMessage } from 'components';
 import EmptyContent from 'containers/Empty/EmptyContent';
 
 interface PropsTodo extends HTMLAttributes<HTMLDivElement> {
@@ -25,9 +25,9 @@ const Todo = (props: PropsTodo) => {
     setTagList,
     keyword
   } = props;
-  const { isModalVisible, openModal, isToastVisible } =
-    useContext(PortalContext);
+  const { isToastVisible } = useContext(PortalContext);
   const [toastMessage, setToastMessage] = useState<string>('');
+  const [openCreateSheet, setOpenCreateSheet] = useState<boolean>(false);
   const [editItem, setEditItem] = useState<TodoListInterface | null>(null);
 
   const removeTodo = (list: TodoListInterface[], item: TodoListInterface) => {
@@ -77,25 +77,28 @@ const Todo = (props: PropsTodo) => {
       )}
 
       <div className="todo-button-area">
-        <button className="create-todo" onClick={openModal}>
+        <button
+          className="create-todo"
+          onClick={() => setOpenCreateSheet(true)}
+        >
           + ADD NEW TODO
         </button>
       </div>
-      {isModalVisible && (
-        <Portal>
-          <CreateTodoModal
-            tagList={tagList}
-            setTagList={setTagList}
-            setTodoList={setTodoList}
-            createTodo={createTodo}
-            editTodo={editTodo}
-            setEditItem={setEditItem}
-            editItem={editItem}
-            edit={editItem ? true : false}
-            setToastMessage={setToastMessage}
-          />
-        </Portal>
+      {openCreateSheet && (
+        <CreateTodo
+          tagList={tagList}
+          setTagList={setTagList}
+          setTodoList={setTodoList}
+          createTodo={createTodo}
+          editTodo={editTodo}
+          setEditItem={setEditItem}
+          editItem={editItem}
+          edit={editItem ? true : false}
+          setToastMessage={setToastMessage}
+          setOpenCreateSheet={setOpenCreateSheet}
+        />
       )}
+
       {isToastVisible && (
         <Portal className="global-toast">
           <ToastMessage>
