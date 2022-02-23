@@ -11,7 +11,6 @@ import { todoInitialValue } from 'models/initialValue';
 import CommonModal from '../../components/Modal/CommonModal';
 import { Portal } from '../Portal/Portal/index';
 import { TITLE_MAX_LENGTH } from 'libs/constant';
-import useStore from 'useStore';
 
 interface PropsCreateTodo {
   setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
@@ -33,11 +32,6 @@ interface PropsCreateTodo {
 }
 
 const CreateTodo = (props: PropsCreateTodo) => {
-  const { todo } = useStore();
-  const [content, setContent] = useState<TodoListInterface>({
-    ...todoInitialValue,
-    id: String(Date.now())
-  });
   const {
     setTodoList,
     tagList,
@@ -64,18 +58,8 @@ const CreateTodo = (props: PropsCreateTodo) => {
   });
   const { isModalVisible, openModal, openToast } = useContext(PortalContext);
 
-  const onSubmit = () => {
-    todo.addTodo(content);
-  };
-
   const handleSetValue = (field: string, value: string) => {
     setValues(prev => {
-      return {
-        ...prev,
-        [field]: value
-      };
-    });
-    setContent(prev => {
       return {
         ...prev,
         [field]: value
@@ -111,7 +95,6 @@ const CreateTodo = (props: PropsCreateTodo) => {
     }
     setTodoList(prevTags => createTodo(prevTags, values));
     clearCreateModal('생성 되었습니다.');
-    onSubmit();
   };
 
   const handleEditTodo = (item: TodoListInterface) => {

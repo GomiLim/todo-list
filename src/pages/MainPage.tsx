@@ -3,8 +3,13 @@ import { Header, Search, Tags, Todo } from 'containers';
 
 import { TagItemInterface, TodoListInterface } from 'models';
 import { findSameItem } from 'libs/utill';
+import useStore from 'useStore';
+import { useObserver } from 'mobx-react';
+import { Mobxlist } from 'components';
 
 const MainPage = () => {
+  const { todo } = useStore();
+
   const [todoList, setTodoList] = useState<TodoListInterface[]>(
     JSON.parse(localStorage.getItem('todo-list') as string) ?? []
   );
@@ -90,7 +95,11 @@ const MainPage = () => {
     updateFilterForTagChange(filter, tagList);
   }, [tagList]);
 
-  return (
+  useEffect(() => {
+    todo.initTodo();
+  }, []);
+
+  return useObserver(() => (
     <div className="main-page">
       <Header todoList={getFilteredTodoList()} />
       <Tags
@@ -109,8 +118,9 @@ const MainPage = () => {
         filter={filter}
         keyword={keyword}
       />
+      <Mobxlist />
     </div>
-  );
+  ));
 };
 
 export default React.memo(MainPage);
