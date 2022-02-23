@@ -11,16 +11,17 @@
 ### 기술 스택 및 라이브러리
 
 1. React js
-2. typescript
-3. scss
-4. styled-components
+2. Typescript
+3. SCSS
+4. Styled-Components
+5. MobX
 
 ### 구현 기능
 
 1. Todo 추가 / 수정 / 삭제 기능
 2. Todo 추가 시 태그 설정 기능
 3. TODO 완료 여부 Toggle 기능
-4. TODO 개수에 따라 완료 미완요 상태를 나타내는 Progress bar 기능 및 완료 미완요 개수 출력 기능
+4. TODO 개수에 따라 완료 미완료 상태를 나타내는 Progress bar 기능 및 완료 미완료 개수 출력 기능
 5. 태그 추가 / 수정 / 삭제 기능
 6. 로컬 스토리지를 활용하여 Todo와 태그 데이터 영속성 유지
 7. 태그를 이용한 필터 기능
