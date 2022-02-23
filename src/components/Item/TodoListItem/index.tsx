@@ -5,12 +5,11 @@ import { CommonCheckBox } from 'components/CheckBox';
 import { TagItem } from '..';
 import { TagItemInterface, TodoListInterface } from 'models';
 import { MAIN_COLOR, SECONDARY_COLOR_WHITE } from 'libs/constant';
+import useStore from '../../../useStore';
 
 interface PropsTodoListItem extends HtmlHTMLAttributes<HTMLDivElement> {
-  todo: TodoListInterface;
-  setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
-  removeTodo: (item: TodoListInterface) => void;
-  editTodo: (item: TodoListInterface) => void;
+  todoItem: TodoListInterface;
+  handleEditMode: (item: TodoListInterface) => void;
 }
 
 const StyledTodoListItem = styled.div<{ checkBoxId: string }>`
@@ -56,53 +55,47 @@ const StyledTodoListItem = styled.div<{ checkBoxId: string }>`
 `;
 
 const TodoListItem = (props: PropsTodoListItem) => {
-  const { todo, setTodoList, removeTodo, editTodo } = props;
+  const { todoItem, handleEditMode } = props;
+  const { todo } = useStore();
 
-  const handleComplete = (
-    list: TodoListInterface[],
-    item: TodoListInterface,
-    check: boolean
-  ) => {
-    const updateList = list.map(prevItem => {
-      if (prevItem.id === item.id) {
-        return { ...item, isComplete: check };
-      }
-      return prevItem;
-    });
-    return updateList;
+  const handleCompleteTodo = (checkd: boolean) => {
+    todo.changeIsComplete(todoItem.id, checkd);
   };
 
-  const handleIsComplteTodo = (check: boolean) => {
-    setTodoList(prevList => handleComplete(prevList, todo, check));
+  const handleRemoveTodo = () => {
+    todo.removeTodo(todoItem.id);
   };
 
   return (
     <StyledTodoListItem
       className="todo-list-item"
-      checkBoxId={`todo-${todo.id}`}
+      checkBoxId={`todo-${todoItem.id}`}
     >
       <CommonCheckBox
-        id={`todo-${todo.id}`}
-        onChange={handleIsComplteTodo}
-        checkStatus={todo.isComplete ?? false}
+        id={`todo-${todoItem.id}`}
+        onChange={handleCompleteTodo}
+        checkStatus={todoItem.isComplete ?? false}
       />
       <div className="todo-item-area">
         <div className="todo-item-buttons">
-          <button className="edit-buttons" onClick={() => editTodo(todo)}>
+          <button
+            className="edit-buttons"
+            onClick={() => handleEditMode(todoItem)}
+          >
             수정
           </button>
-          <button className="delete-buttons" onClick={() => removeTodo(todo)}>
+          <button className="delete-buttons" onClick={handleRemoveTodo}>
             삭제
           </button>
         </div>
         <div className="todo-item-content-area">
           <div className="todo-item-content">
-            <p className="title"> {todo.title}</p>
-            <p className="content"> {todo.content}</p>
+            <p className="title"> {todoItem.title}</p>
+            <p className="content"> {todoItem.content}</p>
           </div>
         </div>
         <div className="todo-item-tag-area">
-          {todo.tagList.map((tag: TagItemInterface, index: number) => {
+          {todoItem.tagList.map((tag: TagItemInterface, index: number) => {
             return (
               <TagItem
                 key={`${tag.text}-${index}`}

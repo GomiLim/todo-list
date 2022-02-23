@@ -5,14 +5,10 @@ import { TagItemInterface, TodoListInterface } from 'models';
 import { findSameItem } from 'libs/utill';
 import useStore from 'useStore';
 import { useObserver } from 'mobx-react';
-import { Mobxlist } from 'components';
 
 const MainPage = () => {
   const { todo } = useStore();
 
-  const [todoList, setTodoList] = useState<TodoListInterface[]>(
-    JSON.parse(localStorage.getItem('todo-list') as string) ?? []
-  );
   const [tagList, setTagList] = useState<TagItemInterface[]>(
     JSON.parse(localStorage.getItem('tag-list') as string) ?? []
   );
@@ -44,7 +40,7 @@ const MainPage = () => {
   };
 
   const getFilteredTodoList = () => {
-    let filteredTodoList = filterTodoListByActiveTags(filter, todoList);
+    let filteredTodoList = filterTodoListByActiveTags(filter, todo.todoData);
     filteredTodoList = filterTodoListBySearchKeyword(keyword, filteredTodoList);
 
     if (
@@ -54,7 +50,7 @@ const MainPage = () => {
     ) {
       return filteredTodoList;
     } else {
-      return todoList;
+      return todo.todoData;
     }
   };
 
@@ -74,7 +70,8 @@ const MainPage = () => {
       });
       return { ...todo, tagList: newTagList };
     });
-    setTodoList(reflectingTagChange);
+
+    todo.initTodo(reflectingTagChange);
   };
 
   const updateFilterForTagChange = (
@@ -96,8 +93,17 @@ const MainPage = () => {
   }, [tagList]);
 
   useEffect(() => {
-    todo.initTodo();
+    todo.initTodo(
+      localStorage.getItem('todo-list')
+        ? JSON.parse(localStorage.getItem('todo-list') as string)
+        : []
+    );
   }, []);
+
+  useEffect(() => {
+    todo.todoData &&
+      localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
+  }, [todo.todoData, tagList]);
 
   return useObserver(() => (
     <div className="main-page">
@@ -110,15 +116,11 @@ const MainPage = () => {
       />
       <Search setKeyword={setKeyword} keyword={keyword} />
       <Todo
-        todoList={getFilteredTodoList()}
-        originTodoList={todoList}
-        setTodoList={setTodoList}
         tagList={tagList}
         setTagList={setTagList}
         filter={filter}
         keyword={keyword}
       />
-      <Mobxlist />
     </div>
   ));
 };

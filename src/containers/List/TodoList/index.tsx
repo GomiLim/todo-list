@@ -1,44 +1,36 @@
 import React, { HTMLAttributes } from 'react';
 import { TodoListInterface } from 'models';
 import { TodoListItem } from 'components';
+import useStore from 'useStore';
+import { TodoData } from 'stores/todo';
+import { useObserver } from 'mobx-react';
 
 interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
-  todoList: TodoListInterface[];
-  setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
-  removeTodo: (
-    list: TodoListInterface[],
-    item: TodoListInterface
-  ) => TodoListInterface[];
   setOpenCreateSheet: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TodoList = (props: PropsTodoList) => {
-  const { todoList, setTodoList, removeTodo, setOpenCreateSheet } = props;
-
-  const handleRemoveTodo = (item: TodoListInterface) => {
-    setTodoList(prevList => removeTodo(prevList, item));
-  };
+  const { todo } = useStore();
+  const { setOpenCreateSheet } = props;
 
   const handleEditMode = (item: TodoListInterface) => {
     sessionStorage.setItem('edit-todo', JSON.stringify(item));
     setOpenCreateSheet(true);
   };
 
-  return (
+  return useObserver(() => (
     <div className="todo-list-area">
-      {todoList.map((item: TodoListInterface, index: number) => {
+      {todo.todoData.map((item: TodoData, index: number) => {
         return (
           <TodoListItem
             key={`todo-item-${item.id + index}`}
-            todo={item}
-            setTodoList={setTodoList}
-            removeTodo={handleRemoveTodo}
-            editTodo={handleEditMode}
+            todoItem={item}
+            handleEditMode={handleEditMode}
           />
         );
       })}
     </div>
-  );
+  ));
 };
 
 export default React.memo(TodoList);

@@ -12,19 +12,11 @@ import CommonModal from '../../components/Modal/CommonModal';
 import { Portal } from '../Portal/Portal/index';
 import { TITLE_MAX_LENGTH } from 'libs/constant';
 import useStore from 'useStore';
+import { TodoData } from '../../stores/todo';
 
 interface PropsCreateTodo {
   setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
   tagList: TagItemInterface[];
-  setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
-  createTodo: (
-    list: TodoListInterface[],
-    item: TodoListInterface
-  ) => TodoListInterface[];
-  editTodo: (
-    list: TodoListInterface[],
-    item: TodoListInterface
-  ) => TodoListInterface[];
   setEditItem: React.Dispatch<React.SetStateAction<TodoListInterface | null>>;
   editItem?: TodoListInterface | null;
   edit?: boolean;
@@ -39,11 +31,8 @@ const CreateTodo = (props: PropsCreateTodo) => {
     id: String(Date.now())
   });
   const {
-    setTodoList,
     tagList,
     setTagList,
-    createTodo,
-    editTodo,
     editItem,
     setEditItem,
     edit = false,
@@ -63,10 +52,6 @@ const CreateTodo = (props: PropsCreateTodo) => {
     cancelEvent: undefined
   });
   const { isModalVisible, openModal, openToast } = useContext(PortalContext);
-
-  const onSubmit = () => {
-    todo.addTodo(content);
-  };
 
   const handleSetValue = (field: string, value: string) => {
     setValues(prev => {
@@ -109,13 +94,12 @@ const CreateTodo = (props: PropsCreateTodo) => {
       setAlertMessage({ message: '필수값을 모두 입력해주세요.' });
       return openModal();
     }
-    setTodoList(prevTags => createTodo(prevTags, values));
+    todo.addTodo(values);
     clearCreateModal('생성 되었습니다.');
-    onSubmit();
   };
 
-  const handleEditTodo = (item: TodoListInterface) => {
-    setTodoList(prevList => editTodo(prevList, item));
+  const handleEditTodo = (item: TodoData) => {
+    todo.editTodo(item);
     clearCreateModal('수정 되었습니다.');
   };
 
