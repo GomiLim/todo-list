@@ -41,9 +41,16 @@ const MainPage = () => {
   const getFilteredTodoList = () => {
     let filteredTodoList = filterTodoListByActiveTags(filter, todoList);
     filteredTodoList = filterTodoListBySearchKeyword(keyword, filteredTodoList);
-    if (filteredTodoList.length) return filteredTodoList;
-    else if (!filteredTodoList.length && keyword) return filteredTodoList;
-    else return todoList;
+
+    if (
+      filteredTodoList.length ||
+      (!filteredTodoList.length && filter.length) ||
+      (!filteredTodoList.length && keyword)
+    ) {
+      return filteredTodoList;
+    } else {
+      return todoList;
+    }
   };
 
   const updateTodoForTagChange = (
