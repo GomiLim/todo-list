@@ -1,7 +1,6 @@
-import { observable, reaction, toJS } from 'mobx';
+import { observable } from 'mobx';
 import { findSameItem } from 'libs/utill';
 import { TagData } from './tag';
-import { filter } from './filter';
 
 export interface TodoData {
   id: string;
@@ -14,6 +13,7 @@ export interface TodoData {
 interface Todo {
   todoData: TodoData[];
   filterTodoData: TodoData[];
+  completeCount: number;
   initTodo: (content: TodoData[]) => void;
   addTodo: (content: TodoData) => void;
   editTodo: (content: TodoData) => void;
@@ -21,13 +21,16 @@ interface Todo {
   changeIsComplete: (id: string, checkd: boolean) => void;
   filterTodo: (content: TodoData[]) => void;
   updateTodoListOnTagChange: (todoList: TodoData[], tagList: TagData[]) => void;
+  getCompleteCount: () => void;
 }
 
 export const todo = observable<Todo>({
   todoData: [],
   filterTodoData: [],
+  completeCount: 0,
   initTodo(content) {
     this.todoData = [...content];
+    todo.getCompleteCount();
   },
   addTodo(content) {
     this.todoData.push({
@@ -70,6 +73,7 @@ export const todo = observable<Todo>({
     }
 
     this.todoData = [...updateTodoData];
+    todo.getCompleteCount();
     localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
   },
   filterTodo(content) {
@@ -94,5 +98,10 @@ export const todo = observable<Todo>({
     });
     this.todoData = updatedTodoList;
     localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
+  },
+  getCompleteCount() {
+    this.completeCount = this.todoData.filter(
+      (item: TodoData) => item.isComplete
+    ).length;
   }
 });

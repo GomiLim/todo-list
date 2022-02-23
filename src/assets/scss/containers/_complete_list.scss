@@ -1,0 +1,95 @@
+.todo-complete-area {
+  position: relative;
+
+  .toggle-complete-area {
+    flex: none;
+    position: absolute;
+    top: -5px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    button {
+      color: $secondary-color-gray-3;
+      padding: 0 10px;
+      position: relative;
+      z-index: 1;
+      background-color: $secondary-color-white;
+    }
+
+    &:before {
+      content: '';
+      top: 9px;
+      width: 100vw;
+      left: 0%;
+      height: 1px;
+      position: absolute;
+      z-index: 1;
+      background: $secondary-color-gray-2;
+    }
+  }
+
+  &.off {
+    height: 40px;
+    overflow-y: hidden;
+  }
+}
+
+.todo-complete-toogle-area {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  position: relative;
+  margin-bottom: 10px;
+  padding-top: 40px;
+
+  .complete-title {
+    margin-right: 15px;
+    @include fontfamily($font-weight-bold);
+    position: sticky;
+    background: $secondary-color-white;
+    height: 205px;
+    width: 150px;
+    left: 0;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    margin: -11px 15px 0 0;
+    z-index: 1;
+
+    &::after {
+      content: '';
+      width: 30px;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        #ffffff 10%,
+        rgba(255, 255, 255, 0) 70.05%
+      );
+      right: -30px;
+      position: absolute;
+    }
+  }
+
+  .complete-todo {
+    overflow-x: auto;
+    flex: none;
+  }
+  .todo-list-item {
+    display: inline-block;
+    width: 150px;
+    height: 200px;
+    align-items: flex-start;
+    overflow-y: auto;
+    .common-checkbox {
+      display: none;
+    }
+    .todo-item-buttons {
+      display: none;
+    }
+    .todo-item-tag-area {
+      label {
+        word-break: break-all;
+      }
+    }
+  }
+}
