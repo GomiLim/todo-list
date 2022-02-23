@@ -13,6 +13,7 @@ import { Portal } from '../Portal/Portal/index';
 import { TITLE_MAX_LENGTH } from 'libs/constant';
 import useStore from 'useStore';
 import { TodoData } from '../../stores/todo';
+import { useObserver } from 'mobx-react';
 
 interface PropsCreateTodo {
   setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
@@ -126,7 +127,7 @@ const CreateTodo = (props: PropsCreateTodo) => {
     }
   }, [editItem]);
 
-  return (
+  return useObserver(() => (
     <div className="create-todo-area-dim">
       <div className="create-todo-area">
         <div>
@@ -190,7 +191,7 @@ const CreateTodo = (props: PropsCreateTodo) => {
         </Portal>
       )}
     </div>
-  );
+  ));
 };
 
 export default React.memo(CreateTodo);

@@ -7,25 +7,25 @@ import { PortalContext } from 'context/PortalContext';
 import { Portal } from 'containers';
 
 import { alertMessageInterface, TagItemInterface } from 'models';
+import useStore from 'useStore';
+import { TagData } from '../../stores/filter';
+import { useObserver } from 'mobx-react';
 
 interface PropsTags {
   setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
   tagList: TagItemInterface[];
   setSelectTag?: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
   selectTag?: TagItemInterface[];
-  setFilter?: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
-  filter?: TagItemInterface[];
   isEdit?: boolean;
 }
 
 const Tags = (props: PropsTags) => {
+  const { filter } = useStore();
   const {
     setTagList,
     tagList,
     setSelectTag,
     selectTag,
-    setFilter,
-    filter,
     isEdit = false
   } = props;
 
@@ -60,10 +60,7 @@ const Tags = (props: PropsTags) => {
     return updateText;
   };
 
-  const toggleTagId = (
-    prevTags: TagItemInterface[] = [],
-    tag: TagItemInterface
-  ) => {
+  const toggleTagId = (prevTags: TagData[] = [], tag: TagData) => {
     if (findSameItem(prevTags, 'id', tag.id) !== -1) {
       return removeTag(prevTags, tag);
     } else {
@@ -71,13 +68,19 @@ const Tags = (props: PropsTags) => {
     }
   };
 
-  const handleSelectTag = (tag: TagItemInterface) => {
-    if (setFilter) {
-      setFilter(prevTags => toggleTagId(prevTags, tag));
+  const toggleFilterActiveTag = (prevTags: TagData[] = [], tag: TagData) => {
+    if (findSameItem(prevTags, 'id', tag.id) !== -1) {
+      return filter.removeFilter(tag.id);
+    } else {
+      return filter.addFilter(tag);
     }
+  };
 
+  const handleSelectTag = (tag: TagData) => {
     if (setSelectTag) {
       setSelectTag(prevTags => toggleTagId(prevTags, tag));
+    } else {
+      toggleFilterActiveTag(filter.activeFilter, tag);
     }
   };
 
@@ -126,14 +129,10 @@ const Tags = (props: PropsTags) => {
   };
 
   useEffect(() => {
-    localStorage.setItem('active-filter', JSON.stringify(filter));
-  }, [filter]);
-
-  useEffect(() => {
     localStorage.setItem('tag-list', JSON.stringify(tagList));
   }, [tagList, setTagList]);
 
-  return (
+  return useObserver(() => (
     <div className="tag-area">
       <p className="tag-title">Tags</p>
       <div className="tag-list">
@@ -143,7 +142,11 @@ const Tags = (props: PropsTags) => {
               key={`${tag.text}-${index}`}
               id={tag.id}
               status={
-                findSameItem(filter ?? selectTag, 'id', tag.id) !== -1
+                findSameItem(
+                  selectTag ? selectTag : filter.activeFilter,
+                  'id',
+                  tag.id
+                ) !== -1
                   ? true
                   : false
               }
@@ -190,7 +193,7 @@ const Tags = (props: PropsTags) => {
         </Portal>
       )}
     </div>
-  );
+  ));
 };
 
 export default React.memo(Tags);

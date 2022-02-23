@@ -11,7 +11,6 @@ import { useObserver } from 'mobx-react';
 interface PropsTodo extends HTMLAttributes<HTMLDivElement> {
   tagList: TagItemInterface[];
   setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
-  filter: TagItemInterface[];
   keyword: string;
 }
 
