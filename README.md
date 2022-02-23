@@ -2,7 +2,7 @@
 
 > 자유롭게 Todo 리스트를 작성해보세요!
 
-> [서비스 바로가기]()
+> [서비스 바로가기](https://gomilim.github.io/todo-list/)
 
 <p align='center'>
   <img src='https://user-images.githubusercontent.com/52882286/155250032-b60c7084-4e83-4a05-847d-7b7be7e7a6c4.png' width='400'/>
