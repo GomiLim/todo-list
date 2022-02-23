@@ -5,8 +5,8 @@ import { TodoData } from 'stores/todo';
 import { useObserver } from 'mobx-react';
 
 interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
-  setOpenCreateSheet: React.Dispatch<React.SetStateAction<boolean>>;
-  filterList: TodoData[];
+  setOpenCreateSheet?: React.Dispatch<React.SetStateAction<boolean>>;
+  filterList?: TodoData[];
 }
 
 const TodoList = (props: PropsTodoList) => {
@@ -15,12 +15,12 @@ const TodoList = (props: PropsTodoList) => {
 
   const handleEditMode = (item: TodoData) => {
     sessionStorage.setItem('edit-todo', JSON.stringify(item));
-    setOpenCreateSheet(true);
+    setOpenCreateSheet && setOpenCreateSheet(true);
   };
 
   return useObserver(() => (
     <div className="todo-list-area">
-      {filterList.length ? (
+      {filterList && filterList.length ? (
         <>
           {filterList.map((item: TodoData, index: number) => {
             return (

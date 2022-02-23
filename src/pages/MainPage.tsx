@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Header, Search, Tags, Todo } from 'containers';
+import { CompleteList, Header, Search, Tags, Todo } from 'containers';
 
 import { findSameItem } from 'libs/utill';
 import { useStore } from 'hooks';
@@ -92,6 +92,7 @@ const MainPage = () => {
   return useObserver(() => (
     <div className="main-page">
       <Header todoList={getFilteredTodoList()} />
+      <CompleteList />
       <Tags />
       <Search setKeyword={setKeyword} keyword={keyword} />
       <Todo keyword={keyword} filterList={getFilteredTodoList()} />

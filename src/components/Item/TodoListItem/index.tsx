@@ -11,7 +11,7 @@ import { useObserver } from 'mobx-react';
 
 interface PropsTodoListItem extends HtmlHTMLAttributes<HTMLDivElement> {
   todoItem: TodoData;
-  handleEditMode: (item: TodoData) => void;
+  handleEditMode?: (item: TodoData) => void;
 }
 
 const StyledTodoListItem = styled.div<{ checkBoxId: string }>`
@@ -82,7 +82,7 @@ const TodoListItem = (props: PropsTodoListItem) => {
         <div className="todo-item-buttons">
           <button
             className="edit-buttons"
-            onClick={() => handleEditMode(todoItem)}
+            onClick={() => handleEditMode && handleEditMode(todoItem)}
           >
             수정
           </button>
