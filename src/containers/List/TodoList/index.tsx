@@ -1,7 +1,6 @@
-import React, { HTMLAttributes, useContext } from 'react';
+import React, { HTMLAttributes } from 'react';
 import { TodoListInterface } from 'models';
 import { TodoListItem } from 'components';
-import { PortalContext } from 'context/PortalContext';
 
 interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
   todoList: TodoListInterface[];
@@ -10,11 +9,11 @@ interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
     list: TodoListInterface[],
     item: TodoListInterface
   ) => TodoListInterface[];
+  setOpenCreateSheet: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TodoList = (props: PropsTodoList) => {
-  const { todoList, setTodoList, removeTodo } = props;
-  const { openModal } = useContext(PortalContext);
+  const { todoList, setTodoList, removeTodo, setOpenCreateSheet } = props;
 
   const handleRemoveTodo = (item: TodoListInterface) => {
     setTodoList(prevList => removeTodo(prevList, item));
@@ -22,7 +21,7 @@ const TodoList = (props: PropsTodoList) => {
 
   const handleEditMode = (item: TodoListInterface) => {
     sessionStorage.setItem('edit-todo', JSON.stringify(item));
-    openModal();
+    setOpenCreateSheet(true);
   };
 
   return (

@@ -67,6 +67,7 @@ const Todo = (props: PropsTodo) => {
           todoList={todoList}
           setTodoList={setTodoList}
           removeTodo={removeTodo}
+          setOpenCreateSheet={setOpenCreateSheet}
         />
       ) : (
         <EmptyContent>
