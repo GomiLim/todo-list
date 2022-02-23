@@ -37,7 +37,7 @@ const formatReplace = (format: string, date: Date) => {
 
 export const dateFormater = (format: string, date?: DateType): string => {
   const _date = date || new Date();
-  const newDate = typeof _date === 'object' ? _date : new Date(_date); // Date 객체로 만들어줍니다.
+  const newDate = typeof _date === 'object' ? _date : new Date(_date);
   return formatReplace(format, newDate);
 };
 
