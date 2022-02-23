@@ -1,5 +1,5 @@
-import { TITLE_MAX_LENGTH } from 'libs/constant';
 import React, { useState } from 'react';
+import { TITLE_MAX_LENGTH } from 'libs/constant';
 
 interface PropsSearch {
   setKeyword: React.Dispatch<React.SetStateAction<string>>;

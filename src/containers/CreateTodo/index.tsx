@@ -1,15 +1,15 @@
 import React, { useContext, useState, useEffect, useLayoutEffect } from 'react';
+import { useObserver } from 'mobx-react';
 
 import { Tags } from 'containers';
 import { PortalContext } from 'context/PortalContext';
 import { alertMessageInterface } from 'models';
 import { todoInitialValue } from 'models/initialValue';
-import CommonModal from '../../components/Modal/CommonModal';
+import CommonModal from 'components/Modal/CommonModal';
 import { Portal } from '../Portal/Portal/index';
 import { TITLE_MAX_LENGTH } from 'libs/constant';
 import { useStore } from 'hooks';
 import { TodoData } from 'stores/todo';
-import { useObserver } from 'mobx-react';
 import { TagData } from 'stores/tag';
 
 interface PropsCreateTodo {

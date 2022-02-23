@@ -81,6 +81,11 @@ export const todo = observable<Todo>({
     localStorage.setItem('filter-list', JSON.stringify(todo.todoData));
   },
   updateTodoListOnTagChange(todoList, tagList) {
+    /**
+     * 태그의 업데이트 (태그명 수정 / 태그 삭제) 에 따른 기존 TODO아이템의 Tag들을 업데이트 해주는 기능합니다.
+     * 수정시 : 각 Todo의 tagList를 확인하며, 바뀐내용이 있는 태그를 업데이트해줍니다.
+     * 삭제시 : 각 Todo에 있는 삭제 된 태그를 제거합니다.
+     */
     const updatedTodoList = todoList.map((todoItem: TodoData) => {
       const updatedTodoTagList = todoItem.tagList
         .map((tagItem: TagData) => {
