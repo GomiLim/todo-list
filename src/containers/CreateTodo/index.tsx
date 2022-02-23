@@ -2,42 +2,28 @@ import React, { useContext, useState, useEffect, useLayoutEffect } from 'react';
 
 import { Tags } from 'containers';
 import { PortalContext } from 'context/PortalContext';
-import {
-  alertMessageInterface,
-  TagItemInterface,
-  TodoListInterface
-} from 'models';
+import { alertMessageInterface } from 'models';
 import { todoInitialValue } from 'models/initialValue';
 import CommonModal from '../../components/Modal/CommonModal';
 import { Portal } from '../Portal/Portal/index';
 import { TITLE_MAX_LENGTH } from 'libs/constant';
+import { useStore } from 'hooks';
+import { TodoData } from 'stores/todo';
+import { useObserver } from 'mobx-react';
+import { TagData } from 'stores/tag';
 
 interface PropsCreateTodo {
-  setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
-  tagList: TagItemInterface[];
-  setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
-  createTodo: (
-    list: TodoListInterface[],
-    item: TodoListInterface
-  ) => TodoListInterface[];
-  editTodo: (
-    list: TodoListInterface[],
-    item: TodoListInterface
-  ) => TodoListInterface[];
-  setEditItem: React.Dispatch<React.SetStateAction<TodoListInterface | null>>;
-  editItem?: TodoListInterface | null;
+  setEditItem: React.Dispatch<React.SetStateAction<TodoData | null>>;
+  editItem?: TodoData | null;
   edit?: boolean;
   setToastMessage: React.Dispatch<React.SetStateAction<string>>;
   setOpenCreateSheet: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CreateTodo = (props: PropsCreateTodo) => {
+  const { todo } = useStore();
+
   const {
-    setTodoList,
-    tagList,
-    setTagList,
-    createTodo,
-    editTodo,
     editItem,
     setEditItem,
     edit = false,
@@ -45,11 +31,11 @@ const CreateTodo = (props: PropsCreateTodo) => {
     setOpenCreateSheet
   } = props;
 
-  const [values, setValues] = useState<TodoListInterface>({
+  const [values, setValues] = useState<TodoData>({
     ...todoInitialValue,
     id: String(Date.now())
   });
-  const [selectTag, setSelectTag] = useState<TagItemInterface[]>([]);
+  const [selectTag, setSelectTag] = useState<TagData[]>([]);
   const [alertMessage, setAlertMessage] = useState<alertMessageInterface>({
     message: '',
     type: 'info',
@@ -67,7 +53,7 @@ const CreateTodo = (props: PropsCreateTodo) => {
     });
   };
 
-  const handleToggleSelectTag = (selectTag: TagItemInterface[]) => {
+  const handleToggleSelectTag = (selectTag: TagData[]) => {
     setValues(prev => {
       return {
         ...prev,
@@ -93,12 +79,12 @@ const CreateTodo = (props: PropsCreateTodo) => {
       setAlertMessage({ message: '필수값을 모두 입력해주세요.' });
       return openModal();
     }
-    setTodoList(prevTags => createTodo(prevTags, values));
+    todo.addTodo(values);
     clearCreateModal('생성 되었습니다.');
   };
 
-  const handleEditTodo = (item: TodoListInterface) => {
-    setTodoList(prevList => editTodo(prevList, item));
+  const handleEditTodo = (item: TodoData) => {
+    todo.editTodo(item);
     clearCreateModal('수정 되었습니다.');
   };
 
@@ -125,7 +111,7 @@ const CreateTodo = (props: PropsCreateTodo) => {
     }
   }, [editItem]);
 
-  return (
+  return useObserver(() => (
     <div className="create-todo-area-dim">
       <div className="create-todo-area">
         <div>
@@ -163,8 +149,6 @@ const CreateTodo = (props: PropsCreateTodo) => {
             }
           ></textarea>
           <Tags
-            tagList={tagList}
-            setTagList={setTagList}
             isEdit
             setSelectTag={setSelectTag}
             selectTag={edit ? values.tagList : selectTag}
@@ -189,7 +173,7 @@ const CreateTodo = (props: PropsCreateTodo) => {
         </Portal>
       )}
     </div>
-  );
+  ));
 };
 
 export default React.memo(CreateTodo);
