@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Header, Search, Tags, Todo } from 'containers';
 
 import { findSameItem } from 'libs/utill';
-import useStore from 'useStore';
+import { useStore } from 'hooks';
 import { useObserver } from 'mobx-react';
 import { TagData } from 'stores/tag';
 import { TodoData } from 'stores/todo';

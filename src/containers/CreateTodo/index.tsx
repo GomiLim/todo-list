@@ -7,7 +7,7 @@ import { todoInitialValue } from 'models/initialValue';
 import CommonModal from '../../components/Modal/CommonModal';
 import { Portal } from '../Portal/Portal/index';
 import { TITLE_MAX_LENGTH } from 'libs/constant';
-import useStore from 'useStore';
+import { useStore } from 'hooks';
 import { TodoData } from 'stores/todo';
 import { useObserver } from 'mobx-react';
 import { TagData } from 'stores/tag';
@@ -22,10 +22,7 @@ interface PropsCreateTodo {
 
 const CreateTodo = (props: PropsCreateTodo) => {
   const { todo } = useStore();
-  const [content, setContent] = useState<TodoData>({
-    ...todoInitialValue,
-    id: String(Date.now())
-  });
+
   const {
     editItem,
     setEditItem,
@@ -49,12 +46,6 @@ const CreateTodo = (props: PropsCreateTodo) => {
 
   const handleSetValue = (field: string, value: string) => {
     setValues(prev => {
-      return {
-        ...prev,
-        [field]: value
-      };
-    });
-    setContent(prev => {
       return {
         ...prev,
         [field]: value

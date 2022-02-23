@@ -1,6 +1,6 @@
-import React, { HTMLAttributes, useState, useEffect } from 'react';
+import React, { HTMLAttributes } from 'react';
 import { TodoListItem } from 'components';
-import useStore from 'useStore';
+import { useStore } from 'hooks';
 import { TodoData } from 'stores/todo';
 import { useObserver } from 'mobx-react';
 

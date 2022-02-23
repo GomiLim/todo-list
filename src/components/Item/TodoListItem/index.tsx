@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { CommonCheckBox } from 'components/CheckBox';
 import { TagItem } from '..';
 import { MAIN_COLOR, SECONDARY_COLOR_WHITE } from 'libs/constant';
-import useStore from '../../../useStore';
+import { useStore } from 'hooks';
 import { TodoData } from 'stores/todo';
 import { TagData } from 'stores/tag';
 import { useObserver } from 'mobx-react';

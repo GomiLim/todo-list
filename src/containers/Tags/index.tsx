@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { CommonModal, TagItem } from 'components';
 import { findSameItem } from 'libs/utill';
 import { CreateTag } from 'components/Inputs';
@@ -7,7 +7,7 @@ import { PortalContext } from 'context/PortalContext';
 import { Portal } from 'containers';
 
 import { alertMessageInterface } from 'models';
-import useStore from 'useStore';
+import { useStore } from 'hooks';
 import { useObserver } from 'mobx-react';
 import { TagData } from 'stores/tag';
 
@@ -18,7 +18,7 @@ interface PropsTags {
 }
 
 const Tags = (props: PropsTags) => {
-  const { todo, filter, tag } = useStore();
+  const { filter, tag } = useStore();
   const { setSelectTag, selectTag, isEdit = false } = props;
 
   const [showCreateTagBtn, setShowCreateTagBtn] = useState(false);
@@ -42,16 +42,6 @@ const Tags = (props: PropsTags) => {
     return list.concat(item);
   };
 
-  // const editTag = (list: TagData[], tag: TagData) => {
-  //   const updateText = list.map(prevTag => {
-  //     if (prevTag.id === tag.id) {
-  //       return tag;
-  //     }
-  //     return prevTag;
-  //   });
-  //   return updateText;
-  // };
-
   const toggleTagId = (prevTags: TagData[] = [], tagItem: TagData) => {
     if (findSameItem(prevTags, 'id', tagItem.id) !== -1) {
       return removeTag(prevTags, tagItem);
@@ -59,14 +49,6 @@ const Tags = (props: PropsTags) => {
       return createTag(prevTags, tagItem);
     }
   };
-
-  // const toggleTagId = (prevTags: TagData[] = [], tagItem: TagData) => {
-  //   if (findSameItem(prevTags, 'id', tagItem.id) !== -1) {
-  //     return tag.addTag(tagItem);
-  //   } else {
-  //     return tag.removeTag(tagItem.id);
-  //   }
-  // };
 
   const toggleFilterActiveTag = (
     prevTags: TagData[] = [],
