@@ -3,13 +3,15 @@ import React, { HtmlHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { CommonCheckBox } from 'components/CheckBox';
 import { TagItem } from '..';
-import { TagItemInterface, TodoListInterface } from 'models';
 import { MAIN_COLOR, SECONDARY_COLOR_WHITE } from 'libs/constant';
 import useStore from '../../../useStore';
+import { TodoData } from 'stores/todo';
+import { TagData } from 'stores/tag';
+import { useObserver } from 'mobx-react';
 
 interface PropsTodoListItem extends HtmlHTMLAttributes<HTMLDivElement> {
-  todoItem: TodoListInterface;
-  handleEditMode: (item: TodoListInterface) => void;
+  todoItem: TodoData;
+  handleEditMode: (item: TodoData) => void;
 }
 
 const StyledTodoListItem = styled.div<{ checkBoxId: string }>`
@@ -66,15 +68,15 @@ const TodoListItem = (props: PropsTodoListItem) => {
     todo.removeTodo(todoItem.id);
   };
 
-  return (
+  return useObserver(() => (
     <StyledTodoListItem
       className="todo-list-item"
-      checkBoxId={`todo-${todoItem.id}`}
+      checkBoxId={`todo-check-${todoItem.id}`}
     >
       <CommonCheckBox
-        id={`todo-${todoItem.id}`}
+        id={`todo-check-${todoItem.id}`}
         onChange={handleCompleteTodo}
-        checkStatus={todoItem.isComplete ?? false}
+        checkStatus={todoItem.isComplete}
       />
       <div className="todo-item-area">
         <div className="todo-item-buttons">
@@ -95,7 +97,7 @@ const TodoListItem = (props: PropsTodoListItem) => {
           </div>
         </div>
         <div className="todo-item-tag-area">
-          {todoItem.tagList.map((tag: TagItemInterface, index: number) => {
+          {todoItem.tagList.map((tag: TagData, index: number) => {
             return (
               <TagItem
                 key={`${tag.text}-${index}`}
@@ -108,7 +110,7 @@ const TodoListItem = (props: PropsTodoListItem) => {
         </div>
       </div>
     </StyledTodoListItem>
-  );
+  ));
 };
 
 export default React.memo(TodoListItem);

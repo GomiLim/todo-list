@@ -1,27 +1,25 @@
-import React, { HTMLAttributes, useContext, useEffect, useState } from 'react';
+import React, { HTMLAttributes, useContext, useState } from 'react';
 
 import { Portal, TodoList, CreateTodo } from 'containers';
-import { TagItemInterface, TodoListInterface } from 'models';
 import { PortalContext } from 'context/PortalContext';
 import { ToastMessage } from 'components';
 import EmptyContent from 'containers/Empty/EmptyContent';
 import useStore from 'useStore';
 import { useObserver } from 'mobx-react';
+import { TodoData } from 'stores/todo';
 
 interface PropsTodo extends HTMLAttributes<HTMLDivElement> {
-  tagList: TagItemInterface[];
-  setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
   keyword: string;
 }
 
 const Todo = (props: PropsTodo) => {
-  const { todo } = useStore();
+  const { todo, tag } = useStore();
 
-  const { tagList, setTagList, keyword } = props;
+  const { keyword } = props;
   const { isToastVisible } = useContext(PortalContext);
   const [toastMessage, setToastMessage] = useState<string>('');
   const [openCreateSheet, setOpenCreateSheet] = useState<boolean>(false);
-  const [editItem, setEditItem] = useState<TodoListInterface | null>(null);
+  const [editItem, setEditItem] = useState<TodoData | null>(null);
 
   return useObserver(() => (
     <div className="todo-area">
@@ -45,8 +43,6 @@ const Todo = (props: PropsTodo) => {
       </div>
       {openCreateSheet && (
         <CreateTodo
-          tagList={tagList}
-          setTagList={setTagList}
           setEditItem={setEditItem}
           editItem={editItem}
           edit={editItem ? true : false}

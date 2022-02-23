@@ -6,28 +6,20 @@ import { MAIN_COLOR } from 'libs/constant';
 import { PortalContext } from 'context/PortalContext';
 import { Portal } from 'containers';
 
-import { alertMessageInterface, TagItemInterface } from 'models';
+import { alertMessageInterface } from 'models';
 import useStore from 'useStore';
-import { TagData } from '../../stores/filter';
 import { useObserver } from 'mobx-react';
+import { TagData } from 'stores/tag';
 
 interface PropsTags {
-  setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
-  tagList: TagItemInterface[];
-  setSelectTag?: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
-  selectTag?: TagItemInterface[];
+  setSelectTag?: React.Dispatch<React.SetStateAction<TagData[]>>;
+  selectTag?: TagData[];
   isEdit?: boolean;
 }
 
 const Tags = (props: PropsTags) => {
-  const { filter } = useStore();
-  const {
-    setTagList,
-    tagList,
-    setSelectTag,
-    selectTag,
-    isEdit = false
-  } = props;
+  const { todo, filter, tag } = useStore();
+  const { setSelectTag, selectTag, isEdit = false } = props;
 
   const [showCreateTagBtn, setShowCreateTagBtn] = useState(false);
   const [alertMessage, setAlertMessage] = useState<alertMessageInterface>({
@@ -42,37 +34,48 @@ const Tags = (props: PropsTags) => {
   const tagTextRef = useRef<HTMLInputElement>(null);
   const tagColorRef = useRef<HTMLInputElement>(null);
 
-  const removeTag = (list: TagItemInterface[], item: TagItemInterface) => {
-    return list.filter((prevItem: TagItemInterface) => prevItem.id !== item.id);
+  const removeTag = (list: TagData[], item: TagData) => {
+    return list.filter((prevItem: TagData) => prevItem.id !== item.id);
   };
 
-  const createTag = (list: TagItemInterface[] = [], item: TagItemInterface) => {
+  const createTag = (list: TagData[] = [], item: TagData) => {
     return list.concat(item);
   };
 
-  const editTag = (list: TagItemInterface[], tag: TagItemInterface) => {
-    const updateText = list.map(prevTag => {
-      if (prevTag.id === tag.id) {
-        return tag;
-      }
-      return prevTag;
-    });
-    return updateText;
-  };
+  // const editTag = (list: TagData[], tag: TagData) => {
+  //   const updateText = list.map(prevTag => {
+  //     if (prevTag.id === tag.id) {
+  //       return tag;
+  //     }
+  //     return prevTag;
+  //   });
+  //   return updateText;
+  // };
 
-  const toggleTagId = (prevTags: TagData[] = [], tag: TagData) => {
-    if (findSameItem(prevTags, 'id', tag.id) !== -1) {
-      return removeTag(prevTags, tag);
+  const toggleTagId = (prevTags: TagData[] = [], tagItem: TagData) => {
+    if (findSameItem(prevTags, 'id', tagItem.id) !== -1) {
+      return removeTag(prevTags, tagItem);
     } else {
-      return createTag(prevTags, tag);
+      return createTag(prevTags, tagItem);
     }
   };
 
-  const toggleFilterActiveTag = (prevTags: TagData[] = [], tag: TagData) => {
-    if (findSameItem(prevTags, 'id', tag.id) !== -1) {
-      return filter.removeFilter(tag.id);
+  // const toggleTagId = (prevTags: TagData[] = [], tagItem: TagData) => {
+  //   if (findSameItem(prevTags, 'id', tagItem.id) !== -1) {
+  //     return tag.addTag(tagItem);
+  //   } else {
+  //     return tag.removeTag(tagItem.id);
+  //   }
+  // };
+
+  const toggleFilterActiveTag = (
+    prevTags: TagData[] = [],
+    tagItem: TagData
+  ) => {
+    if (findSameItem(prevTags, 'id', tagItem.id) !== -1) {
+      return filter.removeFilter(tagItem.id);
     } else {
-      return filter.addFilter(tag);
+      return filter.addFilter(tagItem);
     }
   };
 
@@ -91,21 +94,21 @@ const Tags = (props: PropsTags) => {
     }
   };
 
-  const handleCreateTag = (tag: TagItemInterface) => {
-    if (!tag.tagIcoColor || !tag.text) {
+  const handleCreateTag = (tagItem: TagData) => {
+    if (!tagItem.tagIcoColor || !tagItem.text) {
       setAlertMessage({ message: '값을 전부 입력해주세요' });
       return openModal();
     }
-    if (findSameItem(tagList, 'text', tag.text) !== -1) {
+    if (findSameItem(tag.tagData, 'text', tagItem.text) !== -1) {
       setAlertMessage({ message: '동일한 태그명이 존재합니다' });
       return openModal();
     }
 
-    setTagList(prevTags => createTag(prevTags, tag));
+    tag.addTag(tagItem);
     resetCreateInputs();
   };
 
-  const handleRemoveTag = (tag: TagItemInterface) => {
+  const handleRemoveTag = (tagItem: TagData) => {
     setAlertMessage({
       message: (
         <p>
@@ -115,28 +118,24 @@ const Tags = (props: PropsTags) => {
         </p>
       ),
       type: 'confirm',
-      completeEvent: () => setTagList(prevTags => removeTag(prevTags, tag))
+      completeEvent: () => tag.removeTag(tagItem.id)
     });
     return openModal();
   };
 
-  const handleEditTag = (tag: TagItemInterface) => {
-    setTagList((prev: TagItemInterface[]) => editTag(prev, tag));
+  const handleEditTag = (tagItem: TagData) => {
+    tag.editTag(tagItem);
   };
 
   const handleShowCreateTagBtn = () => {
     setShowCreateTagBtn(true);
   };
 
-  useEffect(() => {
-    localStorage.setItem('tag-list', JSON.stringify(tagList));
-  }, [tagList, setTagList]);
-
   return useObserver(() => (
     <div className="tag-area">
       <p className="tag-title">Tags</p>
       <div className="tag-list">
-        {tagList.map((tag: TagItemInterface, index: number) => {
+        {tag.tagData.map((tag: TagData, index: number) => {
           return (
             <TagItem
               key={`${tag.text}-${index}`}

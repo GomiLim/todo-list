@@ -1,8 +1,8 @@
 import React from 'react';
 import { Progress as TodoProgress, Today } from 'components';
-import { TodoListInterface } from '../../models/index';
+import { TodoData } from 'stores/todo';
 
-const Header = (todoList: { todoList: TodoListInterface[] }) => {
+const Header = (todoList: { todoList: TodoData[] }) => {
   return (
     <div className="header-area">
       <div className="today-area">
@@ -18,9 +18,8 @@ const Header = (todoList: { todoList: TodoListInterface[] }) => {
         }
         completeTodo={
           localStorage.getItem('todo-list')
-            ? todoList.todoList.filter(
-                (item: TodoListInterface) => item.isComplete
-              ).length
+            ? todoList.todoList.filter((item: TodoData) => item.isComplete)
+                .length
             : 0
         }
       />

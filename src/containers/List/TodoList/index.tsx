@@ -1,5 +1,4 @@
 import React, { HTMLAttributes } from 'react';
-import { TodoListInterface } from 'models';
 import { TodoListItem } from 'components';
 import useStore from 'useStore';
 import { TodoData } from 'stores/todo';
@@ -13,7 +12,7 @@ const TodoList = (props: PropsTodoList) => {
   const { todo } = useStore();
   const { setOpenCreateSheet } = props;
 
-  const handleEditMode = (item: TodoListInterface) => {
+  const handleEditMode = (item: TodoData) => {
     sessionStorage.setItem('edit-todo', JSON.stringify(item));
     setOpenCreateSheet(true);
   };

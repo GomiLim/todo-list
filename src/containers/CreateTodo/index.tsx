@@ -2,24 +2,19 @@ import React, { useContext, useState, useEffect, useLayoutEffect } from 'react';
 
 import { Tags } from 'containers';
 import { PortalContext } from 'context/PortalContext';
-import {
-  alertMessageInterface,
-  TagItemInterface,
-  TodoListInterface
-} from 'models';
+import { alertMessageInterface } from 'models';
 import { todoInitialValue } from 'models/initialValue';
 import CommonModal from '../../components/Modal/CommonModal';
 import { Portal } from '../Portal/Portal/index';
 import { TITLE_MAX_LENGTH } from 'libs/constant';
 import useStore from 'useStore';
-import { TodoData } from '../../stores/todo';
+import { TodoData } from 'stores/todo';
 import { useObserver } from 'mobx-react';
+import { TagData } from 'stores/tag';
 
 interface PropsCreateTodo {
-  setTagList: React.Dispatch<React.SetStateAction<TagItemInterface[]>>;
-  tagList: TagItemInterface[];
-  setEditItem: React.Dispatch<React.SetStateAction<TodoListInterface | null>>;
-  editItem?: TodoListInterface | null;
+  setEditItem: React.Dispatch<React.SetStateAction<TodoData | null>>;
+  editItem?: TodoData | null;
   edit?: boolean;
   setToastMessage: React.Dispatch<React.SetStateAction<string>>;
   setOpenCreateSheet: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,13 +22,11 @@ interface PropsCreateTodo {
 
 const CreateTodo = (props: PropsCreateTodo) => {
   const { todo } = useStore();
-  const [content, setContent] = useState<TodoListInterface>({
+  const [content, setContent] = useState<TodoData>({
     ...todoInitialValue,
     id: String(Date.now())
   });
   const {
-    tagList,
-    setTagList,
     editItem,
     setEditItem,
     edit = false,
@@ -41,11 +34,11 @@ const CreateTodo = (props: PropsCreateTodo) => {
     setOpenCreateSheet
   } = props;
 
-  const [values, setValues] = useState<TodoListInterface>({
+  const [values, setValues] = useState<TodoData>({
     ...todoInitialValue,
     id: String(Date.now())
   });
-  const [selectTag, setSelectTag] = useState<TagItemInterface[]>([]);
+  const [selectTag, setSelectTag] = useState<TagData[]>([]);
   const [alertMessage, setAlertMessage] = useState<alertMessageInterface>({
     message: '',
     type: 'info',
@@ -69,7 +62,7 @@ const CreateTodo = (props: PropsCreateTodo) => {
     });
   };
 
-  const handleToggleSelectTag = (selectTag: TagItemInterface[]) => {
+  const handleToggleSelectTag = (selectTag: TagData[]) => {
     setValues(prev => {
       return {
         ...prev,
@@ -165,8 +158,6 @@ const CreateTodo = (props: PropsCreateTodo) => {
             }
           ></textarea>
           <Tags
-            tagList={tagList}
-            setTagList={setTagList}
             isEdit
             setSelectTag={setSelectTag}
             selectTag={edit ? values.tagList : selectTag}

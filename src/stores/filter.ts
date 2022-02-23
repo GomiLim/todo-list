@@ -1,12 +1,7 @@
 import { observable } from 'mobx';
+import { TagData } from './tag';
 
-export interface TagData {
-  id: string;
-  tagIcoColor: string;
-  text: string;
-}
-
-interface Todo {
+interface FIlter {
   activeFilter: TagData[];
   initFilter: (tags: TagData[]) => void;
   addFilter: (tag: TagData) => void;
@@ -15,7 +10,7 @@ interface Todo {
   updateFilter: (tagList: TagData[], updateTagList: TagData[]) => void;
 }
 
-export const filter = observable<Todo>({
+export const filter = observable<FIlter>({
   activeFilter: [],
   initFilter(tags) {
     this.activeFilter = [...tags];

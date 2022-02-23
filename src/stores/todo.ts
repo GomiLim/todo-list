@@ -1,13 +1,12 @@
+import { observable, toJS } from 'mobx';
 import { findSameItem } from 'libs/utill';
-import { observable } from 'mobx';
-import { TagItemInterface } from 'models';
-import { TagData } from './filter';
+import { TagData } from './tag';
 
 export interface TodoData {
   id: string;
   title: string;
   content: string;
-  tagList: TagItemInterface[];
+  tagList: TagData[];
   isComplete: boolean;
 }
 
@@ -53,28 +52,41 @@ export const todo = observable<Todo>({
     localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
   },
   changeIsComplete(id, checkd) {
-    const updateTodoData = this.todoData.filter(prevTodo => {
+    const updateTodoData = this.todoData.map(prevTodo => {
       if (prevTodo.id === id) {
         return { ...prevTodo, isComplete: checkd };
+      } else {
+        return prevTodo;
       }
     });
-    localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
+
+    const index = this.todoData.findIndex(prevTodo => prevTodo.id === id);
+    const updateCheck = { ...this.todoData };
+
+    if (index !== -1) {
+      updateCheck[index].isComplete = checkd;
+    }
+
     this.todoData = [...updateTodoData];
+    localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
   },
   updateTodoListOnTagChange(todoList, tagList) {
-    const reflectingTagChange = todoList.map((todo: TodoData) => {
-      const newTagList: TagItemInterface[] = [];
-      todo.tagList.filter((todoTag: TagItemInterface) => {
-        if (findSameItem(tagList, 'id', todoTag.id) !== -1) {
-          return newTagList.push({
-            ...todoTag,
-            text: tagList[findSameItem(tagList, 'id', todoTag.id)].text
-          });
-        }
-      });
-      return { ...todo, tagList: newTagList };
+    const updatedTodoList = todoList.map((todoItem: TodoData) => {
+      const updatedTodoTagList = todoItem.tagList
+        .map((tagItem: TagData) => {
+          const tagIndex = findSameItem(tagList, 'id', tagItem.id);
+          const newTagItem = { ...tagItem };
+          if (tagIndex !== -1) {
+            newTagItem.text = tagList[tagIndex].text;
+            return newTagItem;
+          }
+          newTagItem.id = '-1';
+          return newTagItem;
+        })
+        .filter((tagItem: TagData) => tagItem.id !== '-1');
+      return { ...todoItem, tagList: updatedTodoTagList };
     });
-
-    todo.initTodo(reflectingTagChange);
+    this.todoData = updatedTodoList;
+    localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
   }
 });
