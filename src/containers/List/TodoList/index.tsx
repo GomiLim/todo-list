@@ -1,44 +1,52 @@
 import React, { HTMLAttributes } from 'react';
-import { TodoListInterface } from 'models';
 import { TodoListItem } from 'components';
+import { useStore } from 'hooks';
+import { TodoData } from 'stores/todo';
+import { useObserver } from 'mobx-react';
 
 interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
-  todoList: TodoListInterface[];
-  setTodoList: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
-  removeTodo: (
-    list: TodoListInterface[],
-    item: TodoListInterface
-  ) => TodoListInterface[];
-  setOpenCreateSheet: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenCreateSheet?: React.Dispatch<React.SetStateAction<boolean>>;
+  filterList?: TodoData[];
 }
 
 const TodoList = (props: PropsTodoList) => {
-  const { todoList, setTodoList, removeTodo, setOpenCreateSheet } = props;
+  const { todo } = useStore();
+  const { setOpenCreateSheet, filterList } = props;
 
-  const handleRemoveTodo = (item: TodoListInterface) => {
-    setTodoList(prevList => removeTodo(prevList, item));
-  };
-
-  const handleEditMode = (item: TodoListInterface) => {
+  const handleEditMode = (item: TodoData) => {
     sessionStorage.setItem('edit-todo', JSON.stringify(item));
-    setOpenCreateSheet(true);
+    setOpenCreateSheet && setOpenCreateSheet(true);
   };
 
-  return (
+  return useObserver(() => (
     <div className="todo-list-area">
-      {todoList.map((item: TodoListInterface, index: number) => {
-        return (
-          <TodoListItem
-            key={`todo-item-${item.id + index}`}
-            todo={item}
-            setTodoList={setTodoList}
-            removeTodo={handleRemoveTodo}
-            editTodo={handleEditMode}
-          />
-        );
-      })}
+      {filterList && filterList.length ? (
+        <>
+          {filterList.map((item: TodoData, index: number) => {
+            return (
+              <TodoListItem
+                key={`todo-item-${item.id + index}`}
+                todoItem={item}
+                handleEditMode={handleEditMode}
+              />
+            );
+          })}
+        </>
+      ) : (
+        <>
+          {todo.todoData.map((item: TodoData, index: number) => {
+            return (
+              <TodoListItem
+                key={`todo-item-${item.id + index}`}
+                todoItem={item}
+                handleEditMode={handleEditMode}
+              />
+            );
+          })}
+        </>
+      )}
     </div>
-  );
+  ));
 };
 
 export default React.memo(TodoList);

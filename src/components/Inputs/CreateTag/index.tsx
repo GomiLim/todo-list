@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { TagItemInterface } from 'models';
 import { MAIN_COLOR } from 'libs/constant';
+import { TagData } from 'stores/tag';
 
 interface PropsCreateTag {
-  onSave: (tag: TagItemInterface) => void;
+  onSave: (tag: TagData) => void;
   tagTextRef: React.RefObject<HTMLInputElement>;
   tagColorRef: React.RefObject<HTMLInputElement>;
 }
