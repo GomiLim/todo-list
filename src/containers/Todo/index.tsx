@@ -10,12 +10,13 @@ import { TodoData } from 'stores/todo';
 
 interface PropsTodo extends HTMLAttributes<HTMLDivElement> {
   keyword: string;
+  filterList: TodoData[];
 }
 
 const Todo = (props: PropsTodo) => {
-  const { todo, tag } = useStore();
+  const { todo } = useStore();
 
-  const { keyword } = props;
+  const { keyword, filterList } = props;
   const { isToastVisible } = useContext(PortalContext);
   const [toastMessage, setToastMessage] = useState<string>('');
   const [openCreateSheet, setOpenCreateSheet] = useState<boolean>(false);
@@ -23,8 +24,11 @@ const Todo = (props: PropsTodo) => {
 
   return useObserver(() => (
     <div className="todo-area">
-      {todo.todoData.length ? (
-        <TodoList setOpenCreateSheet={setOpenCreateSheet} />
+      {todo.todoData.length && filterList.length ? (
+        <TodoList
+          setOpenCreateSheet={setOpenCreateSheet}
+          filterList={filterList}
+        />
       ) : (
         <EmptyContent>
           {keyword

@@ -1,4 +1,5 @@
 import { observable } from 'mobx';
+import { filter } from './filter';
 import { todo } from './todo';
 
 export interface TagData {
@@ -33,6 +34,7 @@ export const tag = observable<Tag>({
       this.tagData.splice(index, 1);
     }
     todo.updateTodoListOnTagChange(todo.todoData, tag.tagData);
+    filter.removeFilter(id);
     localStorage.setItem('tag-list', JSON.stringify(tag.tagData));
   },
   editTag(content) {

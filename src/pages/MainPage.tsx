@@ -55,10 +55,6 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    getFilteredTodoList();
-  }, [todo.filterTodoData]);
-
-  useEffect(() => {
     if (!firstRender.current) {
       const origin = localStorage.getItem('todo-list')
         ? JSON.parse(localStorage.getItem('todo-list') as string)
@@ -93,13 +89,12 @@ const MainPage = () => {
     todo.todoData &&
       localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
   }, [todo.todoData, tag.tagData]);
-
   return useObserver(() => (
     <div className="main-page">
       <Header todoList={getFilteredTodoList()} />
       <Tags />
       <Search setKeyword={setKeyword} keyword={keyword} />
-      <Todo keyword={keyword} />
+      <Todo keyword={keyword} filterList={getFilteredTodoList()} />
     </div>
   ));
 };

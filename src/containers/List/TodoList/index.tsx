@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useState, useEffect } from 'react';
 import { TodoListItem } from 'components';
 import useStore from 'useStore';
 import { TodoData } from 'stores/todo';
@@ -6,11 +6,12 @@ import { useObserver } from 'mobx-react';
 
 interface PropsTodoList extends HTMLAttributes<HTMLDivElement> {
   setOpenCreateSheet: React.Dispatch<React.SetStateAction<boolean>>;
+  filterList: TodoData[];
 }
 
 const TodoList = (props: PropsTodoList) => {
   const { todo } = useStore();
-  const { setOpenCreateSheet } = props;
+  const { setOpenCreateSheet, filterList } = props;
 
   const handleEditMode = (item: TodoData) => {
     sessionStorage.setItem('edit-todo', JSON.stringify(item));
@@ -19,15 +20,31 @@ const TodoList = (props: PropsTodoList) => {
 
   return useObserver(() => (
     <div className="todo-list-area">
-      {todo.todoData.map((item: TodoData, index: number) => {
-        return (
-          <TodoListItem
-            key={`todo-item-${item.id + index}`}
-            todoItem={item}
-            handleEditMode={handleEditMode}
-          />
-        );
-      })}
+      {filterList.length ? (
+        <>
+          {filterList.map((item: TodoData, index: number) => {
+            return (
+              <TodoListItem
+                key={`todo-item-${item.id + index}`}
+                todoItem={item}
+                handleEditMode={handleEditMode}
+              />
+            );
+          })}
+        </>
+      ) : (
+        <>
+          {todo.todoData.map((item: TodoData, index: number) => {
+            return (
+              <TodoListItem
+                key={`todo-item-${item.id + index}`}
+                todoItem={item}
+                handleEditMode={handleEditMode}
+              />
+            );
+          })}
+        </>
+      )}
     </div>
   ));
 };

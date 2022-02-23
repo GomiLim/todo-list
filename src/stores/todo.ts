@@ -1,6 +1,7 @@
-import { observable, toJS } from 'mobx';
+import { observable, reaction, toJS } from 'mobx';
 import { findSameItem } from 'libs/utill';
 import { TagData } from './tag';
+import { filter } from './filter';
 
 export interface TodoData {
   id: string;
@@ -18,6 +19,7 @@ interface Todo {
   editTodo: (content: TodoData) => void;
   removeTodo: (id: string) => void;
   changeIsComplete: (id: string, checkd: boolean) => void;
+  filterTodo: (content: TodoData[]) => void;
   updateTodoListOnTagChange: (todoList: TodoData[], tagList: TagData[]) => void;
 }
 
@@ -69,6 +71,10 @@ export const todo = observable<Todo>({
 
     this.todoData = [...updateTodoData];
     localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
+  },
+  filterTodo(content) {
+    this.filterTodoData = content;
+    localStorage.setItem('filter-list', JSON.stringify(todo.todoData));
   },
   updateTodoListOnTagChange(todoList, tagList) {
     const updatedTodoList = todoList.map((todoItem: TodoData) => {
