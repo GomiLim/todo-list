@@ -1,11 +1,11 @@
 import React, { useRef, useState, useContext } from 'react';
-import { CommonModal, TagItem } from 'components';
-import { findSameItem } from 'libs/utill';
+import { Portal } from 'containers';
 import { CreateTag } from 'components/Inputs';
+import { CommonModal, TagItem } from 'components';
+
+import { findSameItem } from 'libs/utill';
 import { MAIN_COLOR } from 'libs/constant';
 import { PortalContext } from 'context/PortalContext';
-import { Portal } from 'containers';
-
 import { alertMessageInterface } from 'models';
 import { useStore } from 'hooks';
 import { useObserver } from 'mobx-react';

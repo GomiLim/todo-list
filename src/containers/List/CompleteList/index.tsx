@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useObserver } from 'mobx-react';
 import { useStore } from 'hooks';
+import EmptyContent from 'containers/Empty/EmptyContent';
 import { TodoListItem } from 'components';
 import { TodoData } from 'stores/todo';
-import EmptyContent from 'containers/Empty/EmptyContent';
 
 const CompleteList = () => {
   const { todo } = useStore();

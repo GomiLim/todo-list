@@ -12,6 +12,7 @@ const MainPage = () => {
   const firstRender = useRef<boolean>(true);
   const [keyword, setKeyword] = useState<string>('');
 
+  /* 검색창에 값 입력하여 Todo List 필터링 */
   const filterTodoListBySearchKeyword = (
     keyword: string | undefined,
     todoList: TodoData[]
@@ -23,6 +24,7 @@ const MainPage = () => {
     });
   };
 
+  /* 태그별로 필터링 */
   const filterTodoListByActiveTags = (
     filter: TagData[],
     todoList: TodoData[]
@@ -36,6 +38,7 @@ const MainPage = () => {
     });
   };
 
+  /* 태그별로 필터링 후 검색키워드 필터링이 진행됩니다. */
   const getFilteredTodoList = () => {
     let filteredTodoList = filterTodoListByActiveTags(
       filter.activeFilter,
@@ -54,6 +57,7 @@ const MainPage = () => {
     }
   };
 
+  /* localStorage에 데이터가 있다면, 초기값세팅을 해주고 없는경우엔 비 배열을 세팅해줍니다. */
   useEffect(() => {
     if (!firstRender.current) {
       const origin = localStorage.getItem('todo-list')
@@ -89,6 +93,7 @@ const MainPage = () => {
     todo.todoData &&
       localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
   }, [todo.todoData, tag.tagData]);
+
   return useObserver(() => (
     <div className="main-page">
       <Header todoList={getFilteredTodoList()} />
