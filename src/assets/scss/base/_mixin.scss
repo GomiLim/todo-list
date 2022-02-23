@@ -1,0 +1,77 @@
+@mixin fontfamily($weight) {
+  font-family: $weight;
+}
+
+@mixin commonboxStyle(
+  $color: $secondary-color-dark,
+  $bg: $secondary-color-white
+) {
+  color: $color;
+  background-color: $bg;
+  box-shadow: $box-shadow;
+  border-radius: 5px;
+  padding: 5px 20px;
+  margin: 0 10px 10px 0;
+}
+
+@mixin commonButtonStyle {
+  display: block;
+  width: 40vw;
+  min-width: 300px;
+  border-radius: 5px;
+  margin: 0 auto;
+  background: $secondary-color-dark;
+  color: $secondary-color-white;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 26px 0;
+  @include fontfamily($font-weight-bold);
+  font-size: $font-size-20;
+}
+
+@mixin hideScrollBar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+}
+
+@mixin dim {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+@mixin customScrollBar {
+  overflow: hidden;
+  &:hover {
+    overflow-y: auto;
+  }
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0px $secondary-color-gray-2;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $main-color;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $main-color;
+    width: 5px;
+  }
+}

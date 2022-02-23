@@ -1,0 +1,18 @@
+.header-area {
+  margin-bottom: 25px;
+  .today-area {
+    text-align: right;
+    font-size: $font-size-35;
+    line-height: 41.02px;
+    color: $secondary-color-dark;
+
+    .today-title {
+      text-transform: capitalize;
+      @include fontfamily($font-weight-thin);
+    }
+
+    .today {
+      @include fontfamily($font-weight-bold);
+    }
+  }
+}

@@ -1,0 +1,92 @@
+.create-todo-area-dim {
+  @include dim();
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.create-todo-area {
+  content: 'sadasdasdas';
+  @include customScrollBar();
+  position: relative;
+  width: 45vw;
+  min-width: 375px;
+  max-width: 400px;
+  height: 90vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 5px;
+  padding: $layout-padding;
+  margin: 0 auto;
+  background: $secondary-color-white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  > div {
+    width: 100%;
+  }
+
+  .close-btn {
+    position: sticky;
+    @include fontfamily($font-weight-bold);
+    top: 0px;
+    left: 100%;
+  }
+
+  .title {
+    margin-bottom: 40px;
+  }
+  .create-todo-input {
+    display: flex;
+    position: relative;
+  }
+  #create-todo-title {
+    border-bottom: 1px solid $secondary-color-gray-2;
+    padding: 0 0 5px 15px;
+    width: 100%;
+    &::placeholder {
+      color: $secondary-color-gray-2;
+    }
+  }
+  .required {
+    position: absolute;
+    top: 4px;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .show-count {
+    font-size: 14;
+    color: $secondary-color-gray-2;
+    position: absolute;
+    right: 0;
+    top: -17px;
+  }
+
+  #create-todo-content {
+    margin-top: 15px;
+    width: 100%;
+    border: 1px solid $secondary-color-gray-2;
+    padding: 15px;
+
+    &::placeholder {
+      color: $secondary-color-gray-2;
+    }
+  }
+  .create-btn {
+    @include commonButtonStyle();
+    width: 100%;
+  }
+
+  .tag-area {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    .tag-title {
+      margin: 20px 0;
+    }
+  }
+}

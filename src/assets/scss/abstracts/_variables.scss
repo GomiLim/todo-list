@@ -1,10 +1,24 @@
-$main-color : #A760E9;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Roboto:wght@100;400;700&display=swap');
 
-$bg-color-shadow : #EFF4FB;
+$main-color: #a760e9;
+$secondary-color-gray-1: #eff4fb;
+$secondary-color-gray-2: #d6dae5;
+$secondary-color-gray-3: #959aa7;
+$secondary-color-dark: #232323;
+$secondary-color-white: #fff;
 
-$font-color-dark : #232323;
-$font-color-white : #fff;
-$font-color-gray : #D6DAE5;
-$font-color-gray : #D6DAE5;
+$font-weight-bold: Pretendard-Bold;
+$font-weight-Regular: Pretendard-Regular;
+$font-weight-thin: Pretendard-Thin;
+$box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
 
-$font-default: -apple-system, BlinkMacSystemFont, helvetica, Apple SD Gothic Neo, sans-serif;
+$font-default: Pretendard-Regular, 'Noto Sans KR', sans-serif;
+
+$layout-padding: 30px 20px;
+$content-max-width: 750px;
+$content-min-width: 375px;
+
+$font-size-14: 0.875em;
+$font-size-16: 1em;
+$font-size-20: 1.25em;
+$font-size-35: 2.188em;

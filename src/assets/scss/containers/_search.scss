@@ -1,0 +1,44 @@
+.search-area {
+  margin-top: 40px;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 5px;
+
+  .search-item {
+    display: flex;
+    justify-content: space-between;
+    min-width: 230px;
+    border-bottom: 1px solid $main-color;
+  }
+
+  #search-input {
+    height: 30px;
+
+    &::-ms-clear,
+    &::-ms-reveal {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      display: none;
+    }
+  }
+  .clear-btn {
+    width: 30px;
+    height: 30px;
+    background: url(https://img.icons8.com/pastel-glyph/2x/cancel.png) center
+      center no-repeat;
+    background-size: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  button {
+    @include fontfamily($font-weight-bold);
+  }
+}

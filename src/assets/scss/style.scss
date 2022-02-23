@@ -1,7 +1,23 @@
-
 @import './abstracts/variables';
 
-@import './base/reset.scss';
-@import './base/mixin.scss';
+@import './base/font';
+@import './base/reset';
+@import './base/mixin';
+@import './base/base';
 
-@import './pages/main_page.scss';
+@import './components/global_modal';
+@import './components/toast_message';
+@import './components/progress';
+@import './components/tag_item';
+@import './components/todo_list_item';
+@import './components/create_todo_modal';
+@import './components/common_modal';
+
+@import './containers/header';
+@import './containers/tags';
+@import './containers/search';
+@import './containers/todo_list';
+@import './containers/todo';
+@import './containers/empty';
+
+@import './pages/main_page';

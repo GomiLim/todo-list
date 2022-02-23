@@ -1,7 +1,7 @@
 body {
   min-width: 320px;
   line-height: normal;
-  font-size: 14px;
+  font-size: $font-size-14;
   color: #000;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased; // 맥에서 폰트가 조금 굵어보이는 부분을 리셋해줌
@@ -16,7 +16,7 @@ table,
 button,
 code {
   font-family: $font-default;
-  font-size: 16px;
+  font-size: $font-size-16;
 }
 
 *,
@@ -65,7 +65,7 @@ button {
   -webkit-appearance: none;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -124,9 +124,15 @@ textarea {
 table {
   width: 100%;
   table-layout: fixed;
-  border-collapse: collapse; // 테이블 셀마다 간격을 둘지 여부를 결정하는 부분 (collapse 를 주면 붙음 )
+  border-collapse: collapse;
 }
 
 img {
   vertical-align: top;
+}
+
+input {
+  &:focus-visible {
+    outline: none;
+  }
 }
