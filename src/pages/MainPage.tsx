@@ -1,116 +1,102 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Header, Search, Tags, Todo } from 'containers';
 
-import { TagItemInterface, TodoListInterface } from 'models';
 import { findSameItem } from 'libs/utill';
+import { useStore } from 'hooks';
+import { useObserver } from 'mobx-react';
+import { TagData } from 'stores/tag';
+import { TodoData } from 'stores/todo';
 
 const MainPage = () => {
-  const [todoList, setTodoList] = useState<TodoListInterface[]>(
-    JSON.parse(localStorage.getItem('todo-list') as string) ?? []
-  );
-  const [tagList, setTagList] = useState<TagItemInterface[]>(
-    JSON.parse(localStorage.getItem('tag-list') as string) ?? []
-  );
-  const [filter, setFilter] = useState<TagItemInterface[]>([]);
+  const { todo, filter, tag } = useStore();
+  const firstRender = useRef<boolean>(true);
   const [keyword, setKeyword] = useState<string>('');
 
   const filterTodoListBySearchKeyword = (
     keyword: string | undefined,
-    todoList: TodoListInterface[]
+    todoList: TodoData[]
   ) => {
     const _todoList = [...todoList];
     if (!keyword) return _todoList;
-    return _todoList.filter((todoItem: TodoListInterface) => {
+    return _todoList.filter((todoItem: TodoData) => {
       return todoItem.title.includes(keyword);
     });
   };
 
   const filterTodoListByActiveTags = (
-    filter: TagItemInterface[],
-    todoList: TodoListInterface[]
+    filter: TagData[],
+    todoList: TodoData[]
   ) => {
     const _todoList = [...todoList];
     if (!filter.length) return _todoList;
-    return _todoList.filter((todoItem: TodoListInterface) => {
-      return todoItem.tagList.find((todoTag: TagItemInterface) => {
+    return _todoList.filter((todoItem: TodoData) => {
+      return todoItem.tagList.find((todoTag: TagData) => {
         return findSameItem(filter, 'id', todoTag.id) !== -1;
       });
     });
   };
 
   const getFilteredTodoList = () => {
-    let filteredTodoList = filterTodoListByActiveTags(filter, todoList);
+    let filteredTodoList = filterTodoListByActiveTags(
+      filter.activeFilter,
+      todo.todoData
+    );
     filteredTodoList = filterTodoListBySearchKeyword(keyword, filteredTodoList);
 
     if (
       filteredTodoList.length ||
-      (!filteredTodoList.length && filter.length) ||
+      (!filteredTodoList.length && filter.activeFilter.length) ||
       (!filteredTodoList.length && keyword)
     ) {
       return filteredTodoList;
     } else {
-      return todoList;
+      return todo.todoData;
     }
   };
 
-  const updateTodoForTagChange = (
-    todoList: TodoListInterface[],
-    tagList: TagItemInterface[]
-  ) => {
-    const reflectingTagChange = todoList.map((todo: TodoListInterface) => {
-      const newTagList: TagItemInterface[] = [];
-      todo.tagList.filter((todoTag: TagItemInterface) => {
-        if (findSameItem(tagList, 'id', todoTag.id) !== -1) {
-          return newTagList.push({
-            ...todoTag,
-            text: tagList[findSameItem(tagList, 'id', todoTag.id)].text
-          });
-        }
-      });
-      return { ...todo, tagList: newTagList };
-    });
-    setTodoList(reflectingTagChange);
-  };
-
-  const updateFilterForTagChange = (
-    tagList: TagItemInterface[],
-    filterList: TagItemInterface[]
-  ) => {
-    const reflectingTagChange = filterList.filter(filter =>
-      tagList.find(item => item.id === filter.id)
-    );
-    setFilter(reflectingTagChange);
-  };
+  useEffect(() => {
+    if (!firstRender.current) {
+      const origin = localStorage.getItem('todo-list')
+        ? JSON.parse(localStorage.getItem('todo-list') as string)
+        : [];
+      todo.updateTodoListOnTagChange(origin, tag.tagData);
+      filter.updateFilter(tag.tagData, filter.activeFilter);
+    }
+    return () => {
+      firstRender.current = false;
+    };
+  }, [tag.tagData]);
 
   useEffect(() => {
-    const origin = localStorage.getItem('todo-list')
-      ? JSON.parse(localStorage.getItem('todo-list') as string)
-      : [];
-    updateTodoForTagChange(origin, tagList);
-    updateFilterForTagChange(filter, tagList);
-  }, [tagList]);
+    todo.initTodo(
+      localStorage.getItem('todo-list')
+        ? JSON.parse(localStorage.getItem('todo-list') as string)
+        : []
+    );
+    filter.initFilter(
+      localStorage.getItem('tag-filter')
+        ? JSON.parse(localStorage.getItem('tag-filter') as string)
+        : []
+    );
+    tag.initTags(
+      localStorage.getItem('tag-list')
+        ? JSON.parse(localStorage.getItem('tag-list') as string)
+        : []
+    );
+  }, []);
 
-  return (
+  useEffect(() => {
+    todo.todoData &&
+      localStorage.setItem('todo-list', JSON.stringify(todo.todoData));
+  }, [todo.todoData, tag.tagData]);
+  return useObserver(() => (
     <div className="main-page">
       <Header todoList={getFilteredTodoList()} />
-      <Tags
-        tagList={tagList}
-        setTagList={setTagList}
-        setFilter={setFilter}
-        filter={filter}
-      />
+      <Tags />
       <Search setKeyword={setKeyword} keyword={keyword} />
-      <Todo
-        todoList={getFilteredTodoList()}
-        originTodoList={todoList}
-        setTodoList={setTodoList}
-        tagList={tagList}
-        setTagList={setTagList}
-        filter={filter}
-        keyword={keyword}
-      />
+      <Todo keyword={keyword} filterList={getFilteredTodoList()} />
     </div>
-  );
+  ));
 };
 
 export default React.memo(MainPage);
