@@ -16,6 +16,7 @@
   .create-tag-area {
     display: flex;
     align-items: center;
+    width: 100%;
 
     .create-tag-inputs {
       display: flex;
@@ -23,13 +24,19 @@
       #tag-text {
         min-width: 154px;
         @include commonboxStyle();
-        padding-right: 70px;
+        margin: 0 10px 10px 0;
+        padding-right: 40px;
+        width: 150px;
+        &:focus {
+          outline: none;
+        }
       }
 
       #tag-IcoColor {
-        margin: 0 10px 10px -70px;
+        margin: 0 10px 10px -45px;
         height: 33px;
         background: none;
+        width: 30px;
       }
 
       button {
