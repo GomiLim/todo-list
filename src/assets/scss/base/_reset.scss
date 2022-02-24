@@ -132,7 +132,12 @@ img {
 }
 
 input {
+  &:focus,
   &:focus-visible {
-    outline: none;
+    outline: none !important;
   }
+}
+
+element {
+  outline: none;
 }
