@@ -4,22 +4,24 @@
   display: flex;
   justify-content: flex-end;
   padding-bottom: 5px;
-
+  width: 100%;
   .search-item {
     display: flex;
     justify-content: space-between;
-    min-width: 230px;
     border-bottom: 1px solid $main-color;
   }
 
   #search-input {
     height: 30px;
     outline: none;
+    padding-right: 30px;
+
     &::-ms-clear,
     &::-ms-reveal {
       display: none;
       width: 0;
       height: 0;
+      width: 240px;
     }
     &::-webkit-search-decoration,
     &::-webkit-search-cancel-button,
@@ -29,6 +31,8 @@
     }
   }
   .clear-btn {
+    position: absolute;
+    right: 28px;
     width: 30px;
     height: 30px;
     background: url(https://img.icons8.com/pastel-glyph/2x/cancel.png) center
